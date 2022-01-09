@@ -1,0 +1,13 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: messaging-system-server
+  main:
+    allow-bean-definition-overriding: true
+    web-application-type: servlet
+  data:
+    mongodb:
+      repositories:
+        type: imperative
+      uri: mongodb://username:password@localhost:27017/messaging-system-db?authSource=admin&authMechanism=SCRAM-SHA-1
