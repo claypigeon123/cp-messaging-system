@@ -1,6 +1,6 @@
 package com.cp.projects.messagingsystem.messagingserver.service;
 
-import com.cp.projects.messagingsystem.messagingserver.model.User;
+import com.cp.projects.messagingsystem.messagingserver.model.document.User;
 import com.cp.projects.messagingsystem.messagingserver.model.request.AuthRequest;
 import com.cp.projects.messagingsystem.messagingserver.model.request.RegisterRequest;
 import com.cp.projects.messagingsystem.messagingserver.model.response.AuthResponse;

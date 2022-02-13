@@ -11,6 +11,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.io.IOException;
 import java.time.Clock;
@@ -20,6 +21,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
 @Configuration
+@EnableScheduling
 @EnableConfigurationProperties({ SecurityProperties.class, MongoProperties.class})
 public class MessagingServerConfiguration {
 

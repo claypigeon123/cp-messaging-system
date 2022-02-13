@@ -1,6 +1,6 @@
 package com.cp.projects.messagingsystem.messagingserver.repository;
 
-import com.cp.projects.messagingsystem.messagingserver.model.User;
+import com.cp.projects.messagingsystem.messagingserver.model.document.User;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;

@@ -1,12 +1,15 @@
-package com.cp.projects.messagingsystem.messagingserver.model;
+package com.cp.projects.messagingsystem.messagingserver.model.document;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 import java.time.OffsetDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @org.springframework.data.mongodb.core.mapping.Document(collection = "messages")
+@NoArgsConstructor
 public class Message extends Document {
     private String sender;
 

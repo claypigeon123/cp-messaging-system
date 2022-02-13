@@ -1,17 +1,20 @@
 package com.cp.projects.messagingsystem.messagingserver.util;
 
+import com.cp.projects.messagingsystem.messagingserver.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 import javax.crypto.SecretKey;
 import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class JwtUtils {
+public class AuthUtils {
+    private final UserRepository userRepository;
     private final SecretKey secretKey;
 
     public Optional<Claims> isValidToken(String value, boolean withPrefix) {
@@ -26,6 +29,12 @@ public class JwtUtils {
         } catch (JwtException e) {
             return Optional.empty();
         }
+    }
+
+    public boolean isValidUser(String username) {
+        return Boolean.TRUE.equals(userRepository.existsByUsername(username)
+            .switchIfEmpty(Mono.just(false))
+            .block());
     }
 
     public Optional<Claims> isValidToken(String value) {
