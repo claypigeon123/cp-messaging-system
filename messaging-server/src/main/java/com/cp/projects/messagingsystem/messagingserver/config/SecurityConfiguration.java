@@ -1,49 +1,70 @@
 package com.cp.projects.messagingsystem.messagingserver.config;
 
+import com.cp.projects.messagingsystem.messagingserver.config.properties.SecurityProperties;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.util.matcher.NegatedServerWebExchangeMatcher;
+import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.reactive.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
-import java.util.List;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.util.Map;
 
 @Configuration
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+@EnableWebFluxSecurity
+@RequiredArgsConstructor
+public class SecurityConfiguration {
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-            .csrf().disable()
-            .cors()
-
-            .and()
-
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
-            .and()
-
-            .authorizeRequests()
-            .anyRequest().permitAll()
-
-            .and()
-
-            .formLogin().disable()
-            .httpBasic().disable();
+    @Bean
+    public SecretKey secretKey(SecurityProperties securityProperties) {
+        byte[] decoded = Decoders.BASE64.decode(securityProperties.getJwtSecret());
+        return new SecretKeySpec(decoded, SignatureAlgorithm.HS512.getJcaName());
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http, SecurityProperties securityProperties) {
+        return http
+            .cors().configurationSource(corsConfigurationSource(securityProperties)).and()
+            .csrf().disable()
+
+            .securityMatcher(new NegatedServerWebExchangeMatcher(ServerWebExchangeMatchers.pathMatchers(
+                "/actuator/health"
+            )))
+
+            .authorizeExchange(ex -> ex
+                .anyExchange().permitAll()
+            )
+
+            .httpBasic().disable()
+            .formLogin().disable()
+            .logout().disable()
+            .build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource(SecurityProperties securityProperties) {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("*"));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setExposedHeaders(List.of("Content-Type", "Authorization"));
-        config.setAllowedHeaders(List.of("Content-Type", "Authorization"));
-        config.setAllowCredentials(true);
+        config.setAllowedOrigins(securityProperties.getAllowedOrigins());
+        config.setAllowedMethods(securityProperties.getAllowedMethods());
+        config.setExposedHeaders(securityProperties.getExposedHeaders());
+        config.setAllowedHeaders(securityProperties.getAllowedHeaders());
+        config.setAllowCredentials(securityProperties.isAllowCredentials());
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.setCorsConfigurations(Map.of("/**", config));

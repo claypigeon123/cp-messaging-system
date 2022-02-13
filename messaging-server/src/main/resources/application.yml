@@ -5,9 +5,33 @@ spring:
     name: messaging-system-server
   main:
     allow-bean-definition-overriding: true
-    web-application-type: servlet
+    web-application-type: reactive
   data:
     mongodb:
       repositories:
-        type: imperative
-      uri: mongodb://username:password@localhost:27017/messaging-system-db?authSource=admin&authMechanism=SCRAM-SHA-1
+        type: reactive
+com:
+  cp:
+    projects:
+      messaging-system:
+        messaging-server:
+          mongo-config:
+            database-name: messaging-system-db
+            connection-string: mongodb://username:password@localhost:27017/${com.cp.projects.messaging-system.messaging-server.mongo-config.database-name}?authSource=admin
+          security-config:
+            jwt-secret: XsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretX
+            allowed-origins:
+              - http://localhost:3000
+            allowed-methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            exposed-headers:
+              - Content-Type
+              - Authorization
+            allowed-headers:
+              - Content-Type
+              - Authorization
+            allow-credentials: true
