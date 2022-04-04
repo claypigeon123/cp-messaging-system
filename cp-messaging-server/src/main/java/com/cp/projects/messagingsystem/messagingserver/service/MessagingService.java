@@ -1,5 +1,6 @@
 package com.cp.projects.messagingsystem.messagingserver.service;
 
+import com.cp.projects.messagingsystem.cpmessagingdomain.ws.MessagingWebsocketResponse;
 import com.cp.projects.messagingsystem.messagingserver.model.document.Message;
 import com.cp.projects.messagingsystem.messagingserver.repository.MessageRepository;
 import com.cp.projects.messagingsystem.messagingserver.util.AuthUtils;
@@ -20,19 +21,23 @@ import reactor.core.publisher.Sinks;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
 public class MessagingService implements WebSocketHandler {
+    private static final Logger log = LoggerFactory.getLogger(MessagingService.class);
+    private static final String NO_VALID_AUTH = "No valid authorization provided";
+
     @Data
     @AllArgsConstructor
     private static class SessionData {
         private WebSocketSession session;
         private Sinks.Many<WebSocketMessage> outgoingSink;
     }
-    private static final Logger log = LoggerFactory.getLogger(MessagingService.class);
+
     private final Map<String, SessionData> userMap = new ConcurrentHashMap<>();
 
     private final MessageRepository messageRepository;
@@ -47,57 +52,79 @@ public class MessagingService implements WebSocketHandler {
     @Override
     public Mono<Void> handle(WebSocketSession session) {
         List<String> values = session.getHandshakeInfo().getHeaders().get("Authorization");
-        if (values == null) {
-            throw new RuntimeException("No token supplied");
-        }
-        String token = values.stream().findFirst().orElseThrow();
-
-        Claims claims = authUtils.isValidToken(token).orElseThrow();
-        String senderUsername = claims.getSubject();
-
-        if (!authUtils.isValidUser(senderUsername)) {
-            throw new RuntimeException("No such user");
+        if (values == null || values.size() != 1) {
+            return refuseConnection(session);
         }
 
-        // Outgoing message source
-        Sinks.Many<WebSocketMessage> outgoingSink = Sinks.many().unicast().onBackpressureBuffer();
-        Mono<Void> outgoing = session.send(outgoingSink.asFlux());
+        String token = values.get(0);
 
-        // Incoming message source
-        Mono<Void> incoming = session.receive()
-            .map(wsMessage -> broadcast(wsMessage, senderUsername, outgoingSink, session))
-            .then();
+        Optional<Claims> claims = authUtils.isValidToken(token);
+        if (claims.isEmpty()) {
+            return refuseConnection(session);
+        }
 
-        return Mono.zip(incoming, outgoing)
-            .doFirst(() -> {
-                userMap.put(senderUsername, new SessionData(session, outgoingSink));
-                log.info("{} has connected to the messaging service", senderUsername);
-            })
-            .then()
-            .doFinally(signal -> {
-                userMap.remove(senderUsername);
-                log.info("{} has disconnected from the messaging service", senderUsername);
+        String senderUsername = claims.get().getSubject();
+        return authUtils.isValidUser(senderUsername)
+            .flatMap(isValid -> {
+                if (!isValid) {
+                    return refuseConnection(session, senderUsername);
+                }
+
+                // Outgoing message source
+                Sinks.Many<WebSocketMessage> outgoingSink = Sinks.many().unicast().onBackpressureBuffer();
+                Mono<Void> outgoing = session.send(outgoingSink.asFlux());
+
+                // Incoming message source
+                Mono<Void> incoming = session.receive()
+                    .map(wsMessage -> wsParser.parseMessage(wsMessage, Message.class))
+                    .doOnNext(message -> broadcast(message, senderUsername, outgoingSink, session))
+                    .then();
+
+                return Mono.zip(incoming, outgoing)
+                    .doFirst(() -> {
+                        userMap.put(senderUsername, new SessionData(session, outgoingSink));
+                        log.info("{} has connected to the messaging service", senderUsername);
+                    })
+                    .then()
+                    .doFinally(signal -> {
+                        userMap.remove(senderUsername);
+                        log.info("{} has disconnected from the messaging service", senderUsername);
+                    });
             });
     }
 
-    private Sinks.EmitResult broadcast(WebSocketMessage wsMessage, String senderUsername, Sinks.Many<WebSocketMessage> outgoingSink, WebSocketSession localSession) {
-        try {
-            Message msg = wsParser.parseMessage(wsMessage, Message.class);
-            msg.setSender(senderUsername);
-            String targetUsername = msg.getReceiver();
-            if (!authUtils.isValidUser(targetUsername)) {
-                throw new RuntimeException("No such user");
-            }
-            if (userMap.containsKey(targetUsername)) {
-                SessionData targetSessionData = userMap.get(targetUsername);
-                Sinks.Many<WebSocketMessage> targetSink = targetSessionData.getOutgoingSink();
-                WebSocketMessage sentMessage = wsParser.createWebsocketMessage(targetSessionData.getSession(), msg);
-                return targetSink.tryEmitNext(sentMessage);
-            }
-        } catch (Exception e) {
-            log.error("Error", e);
-            outgoingSink.tryEmitNext(localSession.textMessage(e.getMessage()));
+    // --
+
+    private void broadcast(Message msg, String senderUsername, Sinks.Many<WebSocketMessage> outgoingSink, WebSocketSession localSession) {
+        msg.setSender(senderUsername);
+        String targetUsername = msg.getReceiver();
+
+        authUtils.isValidUser(targetUsername)
+            .doOnSuccess(isValid -> {
+                if (!isValid) {
+                    outgoingSink.tryEmitNext(wsParser.createWebsocketMessage(localSession, MessagingWebsocketResponse.ofFailure("Recipient doesn't exist in the system")));
+                    return;
+                }
+
+                if (userMap.containsKey(targetUsername)) {
+                    SessionData targetSessionData = userMap.get(targetUsername);
+                    Sinks.Many<WebSocketMessage> targetSink = targetSessionData.getOutgoingSink();
+                    WebSocketMessage sentMessage = wsParser.createWebsocketMessage(targetSessionData.getSession(), msg);
+                    targetSink.tryEmitNext(sentMessage);
+                }
+            })
+            .then()
+            .subscribe();
+    }
+
+    private Mono<Void> refuseConnection(WebSocketSession session) {
+        return refuseConnection(session, null);
+    }
+
+    private Mono<Void> refuseConnection(WebSocketSession session, String username) {
+        if (username != null) {
+            log.info("Refused connection of {}", username);
         }
-        return Sinks.EmitResult.FAIL_TERMINATED;
+        return session.send(Mono.just(wsParser.createWebsocketMessage(session, MessagingWebsocketResponse.ofFailure(NO_VALID_AUTH))));
     }
 }

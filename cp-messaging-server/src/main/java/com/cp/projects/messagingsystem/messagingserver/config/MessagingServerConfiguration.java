@@ -2,15 +2,14 @@ package com.cp.projects.messagingsystem.messagingserver.config;
 
 import com.cp.projects.messagingsystem.messagingserver.config.properties.MongoProperties;
 import com.cp.projects.messagingsystem.messagingserver.config.properties.SecurityProperties;
-import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.io.IOException;
@@ -31,9 +30,7 @@ public class MessagingServerConfiguration {
     }
 
     @Bean
-    @Primary
-    public ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
+    public Module odtModule() {
         SimpleModule module = new SimpleModule();
         JsonSerializer<OffsetDateTime> serializer = new JsonSerializer<>() {
             public void serialize(OffsetDateTime offsetDateTime, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
@@ -50,7 +47,6 @@ public class MessagingServerConfiguration {
 
         module.addSerializer(OffsetDateTime.class, serializer);
         module.addDeserializer(OffsetDateTime.class, deserializer);
-        objectMapper.registerModule(module);
-        return objectMapper;
+        return module;
     }
 }

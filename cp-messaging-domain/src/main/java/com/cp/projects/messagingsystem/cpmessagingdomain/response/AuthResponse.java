@@ -1,4 +1,4 @@
-package com.cp.projects.messagingsystem.messagingserver.model.response;
+package com.cp.projects.messagingsystem.cpmessagingdomain.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

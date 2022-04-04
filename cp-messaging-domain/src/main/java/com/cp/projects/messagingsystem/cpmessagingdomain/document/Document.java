@@ -1,4 +1,4 @@
-package com.cp.projects.messagingsystem.messagingserver.model.document;
+package com.cp.projects.messagingsystem.cpmessagingdomain.document;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

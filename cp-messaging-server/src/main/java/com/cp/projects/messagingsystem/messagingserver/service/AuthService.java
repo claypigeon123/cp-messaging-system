@@ -1,12 +1,14 @@
 package com.cp.projects.messagingsystem.messagingserver.service;
 
+import com.cp.projects.messagingsystem.cpmessagingdomain.exception.CpMessagingSystemException;
 import com.cp.projects.messagingsystem.messagingserver.model.document.User;
-import com.cp.projects.messagingsystem.messagingserver.model.request.AuthRequest;
-import com.cp.projects.messagingsystem.messagingserver.model.request.RegisterRequest;
-import com.cp.projects.messagingsystem.messagingserver.model.response.AuthResponse;
+import com.cp.projects.messagingsystem.cpmessagingdomain.request.AuthRequest;
+import com.cp.projects.messagingsystem.cpmessagingdomain.request.RegisterRequest;
+import com.cp.projects.messagingsystem.cpmessagingdomain.response.AuthResponse;
 import com.cp.projects.messagingsystem.messagingserver.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -27,19 +29,19 @@ public class AuthService {
 
     public Mono<AuthResponse> auth(AuthRequest request) {
         return userRepository.findByUsername(request.getUsername())
-            .switchIfEmpty(Mono.error(new RuntimeException()))
+            .switchIfEmpty(Mono.error(new CpMessagingSystemException(HttpStatus.UNAUTHORIZED.value())))
             .flatMap(aggregate -> verifyPassword(aggregate, request.getPassword()))
-            .switchIfEmpty(Mono.error(new RuntimeException()))
+            .switchIfEmpty(Mono.error(new CpMessagingSystemException(HttpStatus.UNAUTHORIZED.value())))
             .map(this::generateTokenFor);
     }
 
     public Mono<Void> register(RegisterRequest request) {
         if (!request.getPassword().equals(request.getConfirmPassword())) {
-            throw new RuntimeException();
+            throw new CpMessagingSystemException("Provided passwords didn't match", HttpStatus.BAD_REQUEST.value());
         }
 
         return userRepository.existsByUsername(request.getUsername())
-            .flatMap(isPresent -> isPresent ? Mono.error(new RuntimeException()) : Mono.just(request))
+            .flatMap(isPresent -> isPresent ? Mono.error(new CpMessagingSystemException("Username already taken", HttpStatus.CONFLICT.value())) : Mono.just(request))
             .flatMap(req -> userRepository.save(new User(
                 UUID.randomUUID().toString(),
                 OffsetDateTime.now(clock),

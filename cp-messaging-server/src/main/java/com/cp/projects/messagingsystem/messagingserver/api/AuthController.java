@@ -1,8 +1,8 @@
 package com.cp.projects.messagingsystem.messagingserver.api;
 
-import com.cp.projects.messagingsystem.messagingserver.model.request.AuthRequest;
-import com.cp.projects.messagingsystem.messagingserver.model.request.RegisterRequest;
-import com.cp.projects.messagingsystem.messagingserver.model.response.AuthResponse;
+import com.cp.projects.messagingsystem.cpmessagingdomain.request.AuthRequest;
+import com.cp.projects.messagingsystem.cpmessagingdomain.request.RegisterRequest;
+import com.cp.projects.messagingsystem.cpmessagingdomain.response.AuthResponse;
 import com.cp.projects.messagingsystem.messagingserver.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

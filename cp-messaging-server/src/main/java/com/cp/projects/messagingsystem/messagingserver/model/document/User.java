@@ -1,5 +1,6 @@
 package com.cp.projects.messagingsystem.messagingserver.model.document;
 
+import com.cp.projects.messagingsystem.cpmessagingdomain.document.Document;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

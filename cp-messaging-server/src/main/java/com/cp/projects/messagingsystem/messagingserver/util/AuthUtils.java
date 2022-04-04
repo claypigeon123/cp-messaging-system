@@ -31,13 +31,12 @@ public class AuthUtils {
         }
     }
 
-    public boolean isValidUser(String username) {
-        return Boolean.TRUE.equals(userRepository.existsByUsername(username)
-            .switchIfEmpty(Mono.just(false))
-            .block());
-    }
-
     public Optional<Claims> isValidToken(String value) {
         return isValidToken(value, true);
+    }
+
+    public Mono<Boolean> isValidUser(String username) {
+        return userRepository.existsByUsername(username)
+            .switchIfEmpty(Mono.just(false));
     }
 }
