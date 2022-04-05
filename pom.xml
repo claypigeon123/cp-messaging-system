@@ -32,7 +32,7 @@
         <module>cp-messaging-domain</module>
 
         <!-- Applications -->
-        <module>cp-messaging-server</module>
+        <module>cp-messaging-controller-app</module>
     </modules>
 
     <dependencyManagement>
