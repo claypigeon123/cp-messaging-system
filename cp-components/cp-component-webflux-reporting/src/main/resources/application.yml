@@ -1,0 +1,6 @@
+com:
+  cp:
+    projects:
+      messaging-system:
+        reporting:
+          excluded-paths:

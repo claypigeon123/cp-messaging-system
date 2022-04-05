@@ -35,3 +35,6 @@ com:
               - Content-Type
               - Authorization
             allow-credentials: true
+        reporting:
+          excluded-paths:
+            - /actuator/health
