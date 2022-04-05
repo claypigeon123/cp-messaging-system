@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableConfigurationProperties({ WebClientReportingFilterProperties.class })
-public class WebfluxReportingAutoconfig {
+public class WebfluxReportingAutoConfig {
 
     @Bean
     public WebClientReportingFilter webClientReportingFilter(WebClientReportingFilterProperties webClientReportingFilterProperties) {

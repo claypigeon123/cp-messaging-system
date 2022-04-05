@@ -29,7 +29,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
 @Configuration
-public class CustomWebfluxAutoconfig {
+public class CustomWebfluxAutoConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
