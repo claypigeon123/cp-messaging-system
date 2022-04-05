@@ -1,5 +1,6 @@
 package com.cp.projects.messagingsystem.messagingcontrollerapp.util;
 
+import com.cp.projects.messagingsystem.messagingcontrollerapp.repository.ConversationRepository;
 import com.cp.projects.messagingsystem.messagingcontrollerapp.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -13,7 +14,8 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class AuthUtils {
+public class ValidationUtils {
+    private final ConversationRepository conversationRepository;
     private final UserRepository userRepository;
     private final SecretKey secretKey;
 
@@ -36,7 +38,12 @@ public class AuthUtils {
     }
 
     public Mono<Boolean> isValidUser(String username) {
-        return userRepository.existsByUsername(username)
+        return userRepository.existsById(username)
+            .switchIfEmpty(Mono.just(false));
+    }
+
+    public Mono<Boolean> isValidConversation(String targetConversation) {
+        return conversationRepository.existsById(targetConversation)
             .switchIfEmpty(Mono.just(false));
     }
 }

@@ -1,10 +1,12 @@
 package com.cp.projects.messagingsystem.messagingcontrollerapp.service;
 
 import com.cp.projects.messagingsystem.cpmessagingdomain.exception.CpMessagingSystemException;
+import com.cp.projects.messagingsystem.messagingcontrollerapp.model.document.Message;
 import com.cp.projects.messagingsystem.messagingcontrollerapp.model.document.User;
 import com.cp.projects.messagingsystem.cpmessagingdomain.request.AuthRequest;
 import com.cp.projects.messagingsystem.cpmessagingdomain.request.RegisterRequest;
 import com.cp.projects.messagingsystem.cpmessagingdomain.response.AuthResponse;
+import com.cp.projects.messagingsystem.messagingcontrollerapp.model.ws.WebSocketMessageType;
 import com.cp.projects.messagingsystem.messagingcontrollerapp.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +30,7 @@ public class AuthService {
     private final SecretKey secretKey;
 
     public Mono<AuthResponse> auth(AuthRequest request) {
-        return userRepository.findByUsername(request.getUsername())
+        return userRepository.findById(request.getUsername())
             .switchIfEmpty(Mono.error(new CpMessagingSystemException(HttpStatus.UNAUTHORIZED.value())))
             .flatMap(aggregate -> verifyPassword(aggregate, request.getPassword()))
             .switchIfEmpty(Mono.error(new CpMessagingSystemException(HttpStatus.UNAUTHORIZED.value())))
@@ -40,13 +42,13 @@ public class AuthService {
             throw new CpMessagingSystemException("Provided passwords didn't match", HttpStatus.BAD_REQUEST.value());
         }
 
-        return userRepository.existsByUsername(request.getUsername())
+        OffsetDateTime now = OffsetDateTime.now(clock);
+        return userRepository.existsById(request.getUsername())
             .flatMap(isPresent -> isPresent ? Mono.error(new CpMessagingSystemException("Username already taken", HttpStatus.CONFLICT.value())) : Mono.just(request))
             .flatMap(req -> userRepository.save(new User(
-                UUID.randomUUID().toString(),
-                OffsetDateTime.now(clock),
-                OffsetDateTime.now(clock),
                 req.getUsername(),
+                now,
+                now,
                 passwordEncoder.encode(req.getPassword()),
                 req.getDisplayName(),
                 new ArrayList<>(),
@@ -64,7 +66,7 @@ public class AuthService {
         long now = OffsetDateTime.now(clock).toInstant().toEpochMilli();
         long until = now + 604800000;
         String token = Jwts.builder()
-            .setSubject(aggregate.getUsername())
+            .setSubject(aggregate.getId())
             .setIssuedAt(new Date(now))
             .setExpiration(new Date(until))
             .signWith(secretKey)
