@@ -7,7 +7,6 @@ import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertySourceFactory;
 import org.springframework.lang.Nullable;
 
-import java.io.IOException;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -17,7 +16,7 @@ public class YamlPropertySourceFactory implements PropertySourceFactory {
     public PropertySource<?> createPropertySource(@Nullable String name, EncodedResource encodedResource) {
         Properties propertiesFromYaml = loadYamlIntoProperties(encodedResource);
         String sourceName = name == null ? encodedResource.getResource().getFilename() : name;
-        return new PropertiesPropertySource(Objects.requireNonNull(sourceName), propertiesFromYaml);
+        return new PropertiesPropertySource(Objects.requireNonNull(sourceName), Objects.requireNonNull(propertiesFromYaml));
     }
 
     private Properties loadYamlIntoProperties(EncodedResource encodedResource) {

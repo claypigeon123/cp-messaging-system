@@ -14,12 +14,12 @@ public class Message extends Document {
 
     private String senderId;
 
-    private String message;
+    private String content;
 
-    public Message(String id, OffsetDateTime createdDate, OffsetDateTime updatedDate, String conversationId, String senderId, String message) {
+    public Message(String id, OffsetDateTime createdDate, OffsetDateTime updatedDate, String conversationId, String senderId, String content) {
         super(id, createdDate, updatedDate);
         this.conversationId = conversationId;
         this.senderId = senderId;
-        this.message = message;
+        this.content = content;
     }
 }

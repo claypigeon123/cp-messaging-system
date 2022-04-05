@@ -89,7 +89,7 @@ public class MessagingService implements WebSocketHandler {
                     .doOnNext(operation -> {
                         if (operation.getType() == WebSocketMessageType.CREATE_CONVERSATION) {
                             Conversation conversation = wsParser.parsePayload(operation, Conversation.class);
-                            createConversation(conversation, sender.getId(), outgoingSink, session);
+                            createConversation(conversation, outgoingSink, session);
                         } else if (operation.getType() == WebSocketMessageType.SEND_MESSAGE) {
                             Message message = wsParser.parsePayload(operation, Message.class);
                             broadcast(message, sender.getId(), outgoingSink, session);
@@ -107,7 +107,7 @@ public class MessagingService implements WebSocketHandler {
 
     // --
 
-    private void createConversation(Conversation conversation, String senderUsername, Sinks.Many<WebSocketMessage> localOutgoingSink, WebSocketSession localSession) {
+    private void createConversation(Conversation conversation, Sinks.Many<WebSocketMessage> localOutgoingSink, WebSocketSession localSession) {
         OffsetDateTime now = OffsetDateTime.now(clock);
         conversation.setId(UUID.randomUUID().toString());
         conversation.setCreatedDate(now);
@@ -115,7 +115,7 @@ public class MessagingService implements WebSocketHandler {
 
         conversationRepository.save(conversation)
             .switchIfEmpty(Mono.error(new CpMessagingSystemException("Could not create conversation")))
-            .flatMap(savedConversation -> spread(senderUsername, savedConversation, new WebSocketOperation(WebSocketMessageType.ADDED_TO_CONVERSATION, conversation)))
+            .flatMap(savedConversation -> spread(savedConversation, new WebSocketOperation(WebSocketMessageType.ADDED_TO_CONVERSATION, conversation)))
             .onErrorResume(throwable -> {
                 if (throwable instanceof CpMessagingSystemException cpmse) {
                     localOutgoingSink.tryEmitNext(wsParser.createWebsocketMessage(localSession, new WebSocketOperation(WebSocketMessageType.ERROR_SIGNAL, cpmse.getMessage())));
@@ -147,7 +147,7 @@ public class MessagingService implements WebSocketHandler {
             .doOnSuccess(tuple -> localOutgoingSink.tryEmitNext(wsParser.createWebsocketMessage(localSession, new WebSocketOperation(WebSocketMessageType.SUCCESS_SIGNAL))))
 
             // Broadcast the message to people in the conversation who are connected to the messaging service
-            .flatMap(tuple -> spread(senderUsername, tuple.getT1(), new WebSocketOperation(WebSocketMessageType.RECEIVED_MESSAGE, tuple.getT2())))
+            .flatMap(tuple -> spread(tuple.getT1(), new WebSocketOperation(WebSocketMessageType.RECEIVED_MESSAGE, tuple.getT2())))
 
             // If error along the way, let the client know
             .onErrorResume(throwable -> {
@@ -160,7 +160,7 @@ public class MessagingService implements WebSocketHandler {
             .subscribe();
     }
 
-    private Mono<Void> spread(String initiatorId, Conversation conversation, WebSocketOperation op) {
+    private Mono<Void> spread(Conversation conversation, WebSocketOperation op) {
         return userRepository.findAllById(conversation.getUserIds())
             .flatMap(user -> userMap.containsKey(user.getId()) ? Mono.just(userMap.get(user.getId())) : Mono.empty())
             .doOnNext(targetSessionData -> {
