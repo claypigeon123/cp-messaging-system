@@ -4,3 +4,4 @@ com:
       messaging-system:
         reporting:
           excluded-paths:
+            - some-path

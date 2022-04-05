@@ -1,0 +1,12 @@
+com:
+  cp:
+    projects:
+      messaging-system:
+        mongo-config:
+          username: username
+          password: password
+          host-uri: localhost
+          port: 27017
+          auth-source: admin
+          database-name: database
+          connection-string: mongodb://${com.cp.projects.messaging-system.mongo-config.username}:${com.cp.projects.messaging-system.mongo-config.password}@${com.cp.projects.messaging-system.mongo-config.host-uri}:${com.cp.projects.messaging-system.mongo-config.port}/${com.cp.projects.messaging-system.mongo-config.database-name}?authSource=${com.cp.projects.messaging-system.mongo-config.auth-source}

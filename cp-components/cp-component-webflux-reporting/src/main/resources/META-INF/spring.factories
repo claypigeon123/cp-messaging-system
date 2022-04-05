@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.cp.projects.messagingsystem.components.cpcomponentwebfluxreporting.autoconfig.WebfluxReportingAutoConfig
+  com.cp.projects.messagingsystem.components.webfluxreporting.autoconfig.WebfluxReportingAutoConfig

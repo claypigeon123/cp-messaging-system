@@ -19,6 +19,8 @@
         <module>cp-component-webflux-starter</module>
         <module>cp-component-webflux-reporting</module>
         <module>cp-component-spock</module>
+        <module>cp-component-webflux-mongo-starter</module>
+        <module>cp-component-yml-property-factory</module>
     </modules>
 
 </project>

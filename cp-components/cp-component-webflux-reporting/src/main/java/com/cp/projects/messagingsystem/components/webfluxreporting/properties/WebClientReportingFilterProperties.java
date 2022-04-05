@@ -1,4 +1,4 @@
-package com.cp.projects.messagingsystem.components.cpcomponentwebfluxreporting.properties;
+package com.cp.projects.messagingsystem.components.webfluxreporting.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

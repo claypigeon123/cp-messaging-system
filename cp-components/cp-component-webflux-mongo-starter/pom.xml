@@ -9,11 +9,19 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>cp-component-webflux-reporting</artifactId>
+    <artifactId>cp-component-webflux-mongo-starter</artifactId>
 
-    <name>CP Spring Components - Webflux Reporting</name>
+    <name>CP Spring Components - Webflux MongoDB Starter</name>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-mongodb</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.cp.projects.messaging-system.components</groupId>
             <artifactId>cp-component-yml-property-factory</artifactId>

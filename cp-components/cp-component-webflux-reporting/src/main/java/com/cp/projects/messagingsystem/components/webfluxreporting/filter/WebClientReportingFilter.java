@@ -1,6 +1,6 @@
-package com.cp.projects.messagingsystem.components.cpcomponentwebfluxreporting.filter;
+package com.cp.projects.messagingsystem.components.webfluxreporting.filter;
 
-import com.cp.projects.messagingsystem.components.cpcomponentwebfluxreporting.properties.WebClientReportingFilterProperties;
+import com.cp.projects.messagingsystem.components.webfluxreporting.properties.WebClientReportingFilterProperties;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

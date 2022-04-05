@@ -1,4 +1,4 @@
-package com.cp.projects.messagingsystem.components.cpcomponentwebfluxstarter.autoconfig;
+package com.cp.projects.messagingsystem.components.webfluxstarter.autoconfig;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;

@@ -15,9 +15,6 @@ com:
     projects:
       messaging-system:
         messaging-server:
-          mongo-config:
-            database-name: messaging-system-db
-            connection-string: mongodb://username:password@localhost:27017/${com.cp.projects.messaging-system.messaging-server.mongo-config.database-name}?authSource=admin
           security-config:
             jwt-secret: XsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretX
             allowed-origins:
@@ -35,6 +32,13 @@ com:
               - Content-Type
               - Authorization
             allow-credentials: true
+        mongo-config:
+          username: username
+          password: password
+          host-uri: localhost
+          port: 27017
+          auth-source: admin
+          database-name: messaging-system-db
         reporting:
           excluded-paths:
             - /actuator/health
