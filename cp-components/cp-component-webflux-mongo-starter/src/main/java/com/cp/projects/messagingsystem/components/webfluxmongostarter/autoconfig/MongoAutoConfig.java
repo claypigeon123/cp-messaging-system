@@ -43,6 +43,7 @@ public class MongoAutoConfig extends AbstractReactiveMongoConfiguration {
     protected void configureConverters(MongoConverterConfigurationAdapter adapter) {
         super.configureConverters(adapter);
 
+        // MongoDB will complain if lambdas are used here in converters, so... 69 lines instead of 2 :)
         Converter<OffsetDateTime, String> odtToString = new Converter<>() {
             @Override
             public String convert(OffsetDateTime source) {
@@ -50,6 +51,7 @@ public class MongoAutoConfig extends AbstractReactiveMongoConfiguration {
             }
         };
 
+        // Same here!
         Converter<String, OffsetDateTime> stringToOdt = new Converter<>() {
             @Override
             public OffsetDateTime convert(String source) {
