@@ -33,6 +33,7 @@
 
         <!-- Applications -->
         <module>cp-messaging-controller-app</module>
+        <module>cp-messaging-ui-app</module>
     </modules>
 
     <dependencyManagement>
