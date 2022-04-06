@@ -1,0 +1,12 @@
+server:
+  port: 9900
+spring:
+  application:
+    name: messaging-system-auth-server
+  main:
+    allow-bean-definition-overriding: true
+    web-application-type: reactive
+  data:
+    mongodb:
+      repositories:
+        type: reactive

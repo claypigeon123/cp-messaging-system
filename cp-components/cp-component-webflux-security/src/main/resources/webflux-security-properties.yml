@@ -1,0 +1,19 @@
+com:
+  cp:
+    projects:
+      messaging-system:
+        security-config:
+          jwt-secret: XsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretX
+          allowed-origins:
+            - http://localhost:3000
+            - http://localhost:8080
+          allowed-methods:
+            - GET
+            - POST
+          exposed-headers:
+            - Content-Type
+            - Authorization
+          allowed-headers:
+            - Content-Type
+            - Authorization
+          allow-credentials: true

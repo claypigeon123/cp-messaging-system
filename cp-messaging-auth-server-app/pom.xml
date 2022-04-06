@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.cp.projects.messaging-system</groupId>
         <artifactId>cp-messaging-system-parent</artifactId>
+        <groupId>com.cp.projects.messaging-system</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>cp-messaging-controller-app</artifactId>
+    <artifactId>cp-messaging-auth-server-app</artifactId>
 
-    <name>CP Messaging Controller Application</name>
+    <name>CP Messaging Auth Server Application</name>
 
     <dependencies>
         <!-- Custom -->
@@ -23,18 +23,6 @@
             <groupId>com.cp.projects.messaging-system.components</groupId>
             <artifactId>cp-component-webflux-security</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.cp.projects.messaging-system.components</groupId>
-            <artifactId>cp-component-webflux-reporting</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.cp.projects.messaging-system.components</groupId>
-            <artifactId>cp-component-webflux-mongo-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.cp.projects.messaging-system</groupId>
-            <artifactId>cp-messaging-domain</artifactId>
-        </dependency>
 
         <!-- Spring -->
         <dependency>
@@ -44,22 +32,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-websocket</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-integration</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.integration</groupId>
-            <artifactId>spring-integration-webflux</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.integration</groupId>
-            <artifactId>spring-integration-security</artifactId>
         </dependency>
 
         <!-- Test -->
@@ -80,28 +52,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework.integration</groupId>
-            <artifactId>spring-integration-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.gmavenplus</groupId>
-                <artifactId>gmavenplus-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

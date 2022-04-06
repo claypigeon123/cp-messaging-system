@@ -34,6 +34,7 @@
         <!-- Applications -->
         <module>cp-messaging-controller-app</module>
         <module>cp-messaging-ui-app</module>
+        <module>cp-messaging-auth-server-app</module>
     </modules>
 
     <dependencyManagement>
@@ -41,6 +42,11 @@
             <dependency>
                 <groupId>com.cp.projects.messaging-system.components</groupId>
                 <artifactId>cp-component-webflux-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.cp.projects.messaging-system.components</groupId>
+                <artifactId>cp-component-webflux-security</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -62,6 +68,24 @@
                 <groupId>com.cp.projects.messaging-system</groupId>
                 <artifactId>cp-messaging-domain</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-api</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jjwt.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
+                <version>${jjwt.version}</version>
+                <scope>runtime</scope>
             </dependency>
 
             <dependency>

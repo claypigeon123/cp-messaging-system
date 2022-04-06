@@ -21,6 +21,7 @@
         <module>cp-component-spock</module>
         <module>cp-component-webflux-mongo-starter</module>
         <module>cp-component-yml-property-factory</module>
+        <module>cp-component-webflux-security</module>
     </modules>
 
 </project>
