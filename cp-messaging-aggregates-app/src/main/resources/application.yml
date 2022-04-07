@@ -1,8 +1,8 @@
 server:
-  port: 9000
+  port: 4040
 spring:
   application:
-    name: messaging-system-server
+    name: messaging-aggregates-app
   main:
     allow-bean-definition-overriding: true
     web-application-type: reactive
@@ -14,9 +14,6 @@ com:
   cp:
     projects:
       messaging-system:
-        reactive-clients:
-          cp-messaging-aggregates-app:
-            base-uri: http://localhost:4040
         security-config:
           jwt-secret: XsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretX
           allowed-origins:
@@ -34,6 +31,13 @@ com:
             - Content-Type
             - Authorization
           allow-credentials: true
+        mongo-config:
+          username: username
+          password: password
+          host-uri: localhost
+          port: 27017
+          auth-source: admin
+          database-name: messaging-system-db
         reporting:
           excluded-paths:
             - /actuator/health

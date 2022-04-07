@@ -28,13 +28,15 @@
 
     <modules>
         <!-- Components -->
-        <module>cp-components</module>
+        <module>cp-messaging-components</module>
         <module>cp-messaging-domain</module>
+        <module>cp-messaging-reactive-clients</module>
 
         <!-- Applications -->
         <module>cp-messaging-controller-app</module>
         <module>cp-messaging-ui-app</module>
         <module>cp-messaging-auth-server-app</module>
+        <module>cp-messaging-aggregates-app</module>
     </modules>
 
     <dependencyManagement>
@@ -67,6 +69,11 @@
             <dependency>
                 <groupId>com.cp.projects.messaging-system</groupId>
                 <artifactId>cp-messaging-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.cp.projects.messaging-system.clients.reactive</groupId>
+                <artifactId>cp-messaging-aggregates-app-reactive-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

@@ -1,7 +1,8 @@
 package com.cp.projects.messagingsystem.messagingcontrollerapp.util;
 
-import com.cp.projects.messagingsystem.messagingcontrollerapp.repository.ConversationRepository;
-import com.cp.projects.messagingsystem.messagingcontrollerapp.repository.UserRepository;
+import com.cp.projects.messagingsystem.clients.reactive.aggregatesapp.client.AggregatesAppReactiveClient;
+import com.cp.projects.messagingsystem.cpmessagingdomain.document.Conversation;
+import com.cp.projects.messagingsystem.cpmessagingdomain.document.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -15,8 +16,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class ValidationUtils {
-    private final ConversationRepository conversationRepository;
-    private final UserRepository userRepository;
+    private final AggregatesAppReactiveClient aggregatesClient;
     private final SecretKey secretKey;
 
     public Optional<Claims> isValidToken(String value, boolean withPrefix) {
@@ -38,12 +38,14 @@ public class ValidationUtils {
     }
 
     public Mono<Boolean> isValidUser(String username) {
-        return userRepository.existsById(username)
-            .switchIfEmpty(Mono.just(false));
+        return aggregatesClient.findById(username, User.class)
+            .map(user -> Boolean.TRUE)
+            .onErrorResume(th -> Mono.just(Boolean.FALSE));
     }
 
     public Mono<Boolean> isValidConversation(String targetConversation) {
-        return conversationRepository.existsById(targetConversation)
-            .switchIfEmpty(Mono.just(false));
+        return aggregatesClient.findById(targetConversation, Conversation.class)
+            .map(conversation -> Boolean.TRUE)
+            .onErrorResume(th -> Mono.just(Boolean.FALSE));
     }
 }

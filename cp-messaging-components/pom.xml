@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.cp.projects.messaging-system</groupId>
+        <artifactId>cp-messaging-system-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.cp.projects.messaging-system.components</groupId>
+    <artifactId>cp-messaging-components</artifactId>
+
+    <name>CP Spring Components Parent</name>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>cp-component-webflux-starter</module>
+        <module>cp-component-webflux-reporting</module>
+        <module>cp-component-spock</module>
+        <module>cp-component-webflux-mongo-starter</module>
+        <module>cp-component-yml-property-factory</module>
+        <module>cp-component-webflux-security</module>
+    </modules>
+
+</project>

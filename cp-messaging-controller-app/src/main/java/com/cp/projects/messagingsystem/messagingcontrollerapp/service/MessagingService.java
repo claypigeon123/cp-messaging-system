@@ -1,16 +1,14 @@
 package com.cp.projects.messagingsystem.messagingcontrollerapp.service;
 
+import com.cp.projects.messagingsystem.clients.reactive.aggregatesapp.client.AggregatesAppReactiveClient;
+import com.cp.projects.messagingsystem.cpmessagingdomain.document.User;
 import com.cp.projects.messagingsystem.cpmessagingdomain.exception.CpMessagingSystemException;
-import com.cp.projects.messagingsystem.messagingcontrollerapp.model.document.Conversation;
-import com.cp.projects.messagingsystem.messagingcontrollerapp.model.document.Message;
-import com.cp.projects.messagingsystem.messagingcontrollerapp.model.ws.WebSocketMessageType;
-import com.cp.projects.messagingsystem.messagingcontrollerapp.model.ws.WebSocketOperation;
-import com.cp.projects.messagingsystem.messagingcontrollerapp.repository.ConversationRepository;
-import com.cp.projects.messagingsystem.messagingcontrollerapp.repository.MessageRepository;
-import com.cp.projects.messagingsystem.messagingcontrollerapp.repository.UserRepository;
+import com.cp.projects.messagingsystem.cpmessagingdomain.document.Conversation;
+import com.cp.projects.messagingsystem.cpmessagingdomain.document.Message;
+import com.cp.projects.messagingsystem.messagingcontrollerapp.model.WebSocketMessageType;
+import com.cp.projects.messagingsystem.messagingcontrollerapp.model.WebSocketOperation;
 import com.cp.projects.messagingsystem.messagingcontrollerapp.util.ValidationUtils;
 import com.cp.projects.messagingsystem.messagingcontrollerapp.util.WebSocketMessageParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -50,9 +48,8 @@ public class MessagingService implements WebSocketHandler {
     private final Map<String, SessionData> userMap = new ConcurrentHashMap<>();
 
     private final Clock clock;
-    private final ConversationRepository conversationRepository;
-    private final MessageRepository messageRepository;
-    private final UserRepository userRepository;
+    private final AggregatesAppReactiveClient aggregatesClient;
+
     private final ValidationUtils validationUtils;
     private final WebSocketMessageParser wsParser;
 
@@ -76,7 +73,7 @@ public class MessagingService implements WebSocketHandler {
         }
 
         String senderUsername = claims.get().getSubject();
-        return userRepository.findById(senderUsername)
+        return aggregatesClient.findById(senderUsername, User.class)
             .switchIfEmpty(Mono.error(new CpMessagingSystemException("Sender does not exist", 404)))
             .flatMap(sender -> {
                 // Outgoing message source
@@ -113,7 +110,7 @@ public class MessagingService implements WebSocketHandler {
         conversation.setCreatedDate(now);
         conversation.setUpdatedDate(now);
 
-        conversationRepository.save(conversation)
+        aggregatesClient.create(conversation, Conversation.class)
             .switchIfEmpty(Mono.error(new CpMessagingSystemException("Could not create conversation")))
             .flatMap(savedConversation -> spread(savedConversation, new WebSocketOperation(WebSocketMessageType.ADDED_TO_CONVERSATION, conversation)))
             .onErrorResume(throwable -> {
@@ -136,12 +133,12 @@ public class MessagingService implements WebSocketHandler {
         String targetConversation = msg.getConversationId();
 
         // Find the targeted conversation
-        conversationRepository.findById(targetConversation)
+        aggregatesClient.findById(targetConversation, Conversation.class)
             // Switch to exception if no such conversation exists
             .switchIfEmpty(Mono.error(new CpMessagingSystemException("Conversation does not exist", 404)))
 
             // Save the message, tuple the result up with the already found conversation
-            .flatMap(conversation -> Mono.zip(Mono.just(conversation), messageRepository.save(msg)))
+            .flatMap(conversation -> Mono.zip(Mono.just(conversation), aggregatesClient.create(msg, Message.class)))
 
             // If saving the message was a success, send success feedback to the client
             .doOnSuccess(tuple -> localOutgoingSink.tryEmitNext(wsParser.createWebsocketMessage(localSession, new WebSocketOperation(WebSocketMessageType.SUCCESS_SIGNAL))))
@@ -161,7 +158,7 @@ public class MessagingService implements WebSocketHandler {
     }
 
     private Mono<Void> spread(Conversation conversation, WebSocketOperation op) {
-        return userRepository.findAllById(conversation.getUserIds())
+        return aggregatesClient.findAllByIds(conversation.getUserIds(), User.class)
             .flatMap(user -> userMap.containsKey(user.getId()) ? Mono.just(userMap.get(user.getId())) : Mono.empty())
             .doOnNext(targetSessionData -> {
                 Sinks.Many<WebSocketMessage> targetSink = targetSessionData.getOutgoingSink();

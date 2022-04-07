@@ -1,0 +1,17 @@
+com:
+  cp:
+    projects:
+      messaging-system:
+        reactive-clients:
+          cp-messaging-aggregates-app:
+            base-uri: http://something.domain
+            # Aggregate Path Variables
+            messages-path-variable: messages
+            conversations-path-variable: conversations
+            users-path-variable: users
+            # URIs
+            health-check-uri: ${com.cp.projects.messaging-system.reactive-clients.cp-messaging-aggregates-app.base-uri}/actuator/health
+            aggregates-uri: ${com.cp.projects.messaging-system.reactive-clients.cp-messaging-aggregates-app.base-uri}/aggregates/{aggregateType}
+            aggregates-id-uri: ${com.cp.projects.messaging-system.reactive-clients.cp-messaging-aggregates-app.aggregates-uri}/{aggregateId}
+            find-by-id-uri: ${com.cp.projects.messaging-system.reactive-clients.cp-messaging-aggregates-app.aggregates-uri}/query/by-id/{aggregateId}
+            find-all-by-ids-uri: ${com.cp.projects.messaging-system.reactive-clients.cp-messaging-aggregates-app.aggregates-uri}/query/by-ids
