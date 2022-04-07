@@ -10,3 +10,30 @@ spring:
     mongodb:
       repositories:
         type: reactive
+com:
+  cp:
+    projects:
+      messaging-system:
+        reactive-clients:
+          cp-messaging-aggregates-app:
+            base-uri: http://localhost:4040
+        security-config:
+          jwt-secret: XsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretX
+          allowed-origins:
+            - http://localhost:3000
+          allowed-methods:
+            - GET
+            - POST
+            - PUT
+            - DELETE
+            - OPTIONS
+          exposed-headers:
+            - Content-Type
+            - Authorization
+          allowed-headers:
+            - Content-Type
+            - Authorization
+          allow-credentials: true
+        reporting:
+          excluded-paths:
+            - /actuator/health

@@ -1,9 +1,9 @@
-package com.cp.projects.messagingsystem.messagingcontrollerapp.api;
+package com.cp.projects.messagingsystem.authserverapp.controller;
 
+import com.cp.projects.messagingsystem.authserverapp.service.AuthService;
 import com.cp.projects.messagingsystem.cpmessagingdomain.request.AuthRequest;
 import com.cp.projects.messagingsystem.cpmessagingdomain.request.RegisterRequest;
 import com.cp.projects.messagingsystem.cpmessagingdomain.response.AuthResponse;
-import com.cp.projects.messagingsystem.messagingcontrollerapp.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

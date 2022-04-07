@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>cp-messaging-system-parent</artifactId>
         <groupId>com.cp.projects.messaging-system</groupId>
+        <artifactId>cp-messaging-system-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
@@ -22,6 +22,14 @@
         <dependency>
             <groupId>com.cp.projects.messaging-system.components</groupId>
             <artifactId>cp-component-webflux-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.cp.projects.messaging-system</groupId>
+            <artifactId>cp-messaging-domain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.cp.projects.messaging-system.clients.reactive</groupId>
+            <artifactId>cp-messaging-aggregates-app-reactive-client</artifactId>
         </dependency>
 
         <!-- Spring -->
@@ -57,5 +65,18 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
