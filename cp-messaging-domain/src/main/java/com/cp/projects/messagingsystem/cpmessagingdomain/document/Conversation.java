@@ -9,8 +9,6 @@ import java.util.Collection;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Conversation extends Document {
-    private static final String TYPE = "conversation";
-
     private Collection<String> userIds;
 
     public Conversation(String id, OffsetDateTime createdDate, OffsetDateTime updatedDate, Collection<String> userIds) {

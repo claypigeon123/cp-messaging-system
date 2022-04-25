@@ -2,7 +2,7 @@ server:
   port: 9000
 spring:
   application:
-    name: messaging-system-server
+    name: cp-messaging-system-controller
   main:
     allow-bean-definition-overriding: true
     web-application-type: reactive

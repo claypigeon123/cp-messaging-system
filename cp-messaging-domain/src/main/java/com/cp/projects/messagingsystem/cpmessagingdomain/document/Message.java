@@ -8,7 +8,6 @@ import java.time.OffsetDateTime;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Message extends Document {
-    private static final String TYPE = "message";
     private String conversationId;
 
     private String senderId;

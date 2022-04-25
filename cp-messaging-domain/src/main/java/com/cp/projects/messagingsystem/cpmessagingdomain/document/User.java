@@ -9,7 +9,6 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class User extends Document {
-    private static final String TYPE = "user";
     private String password;
 
     private String displayName;

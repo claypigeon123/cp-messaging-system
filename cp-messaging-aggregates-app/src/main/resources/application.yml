@@ -2,7 +2,7 @@ server:
   port: 4040
 spring:
   application:
-    name: messaging-aggregates-app
+    name: cp-messaging-system-aggregates-app
   main:
     allow-bean-definition-overriding: true
     web-application-type: reactive
