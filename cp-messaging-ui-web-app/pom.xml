@@ -9,9 +9,9 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>cp-messaging-ui-app</artifactId>
+    <artifactId>cp-messaging-ui-web-app</artifactId>
 
-    <name>CP Messaging UI Application</name>
+    <name>CP Messaging UI Web Application</name>
 
     <properties>
         <ui.plugin.maven-exec-plugin>3.0.0</ui.plugin.maven-exec-plugin>

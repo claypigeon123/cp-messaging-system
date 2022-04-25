@@ -1,5 +1,5 @@
 {
-  "name": "cp-messaging-ui-app",
+  "name": "cp-messaging-ui-web-app",
   "version": "1.0.0-SNAPSHOT",
   "private": true,
   "dependencies": {
