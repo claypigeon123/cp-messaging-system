@@ -1,0 +1,8 @@
+spring:
+  main:
+    web-application-type: none
+    allow-bean-definition-overriding: true
+    banner-mode: off
+  application:
+    name: cp-messaging-system-desktop-app
+    main-title: CP Messaging
