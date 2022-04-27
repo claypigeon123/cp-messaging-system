@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.io.Resource;
@@ -20,7 +21,7 @@ public class StageReadyEventListener implements ApplicationListener<StageReadyEv
     private final String applicationTitle;
 
     public StageReadyEventListener(FXMLLoader loader,
-                                   @Value("classpath:/scenes/start-scene.fxml") Resource startScene,
+                                   @Value("classpath:/scenes/base-scene.fxml") Resource startScene,
                                    @Value("${spring.application.main-title}") String applicationTitle
     ) {
         this.loader = loader;
@@ -30,18 +31,19 @@ public class StageReadyEventListener implements ApplicationListener<StageReadyEv
 
     @Override
     public void onApplicationEvent(StageReadyEvent event) {
-        Parent parent;
+        Parent root;
         try {
             loader.setLocation(startScene.getURL());
-            parent = loader.load();
+            root = loader.load();
         } catch (IOException e) {
             throw new RuntimeException();
         }
 
         Stage stage = event.getStage();
-        stage.setScene(new Scene(parent));
+        stage.setScene(new Scene(root));
         stage.setResizable(true);
         stage.setTitle(applicationTitle);
+        stage.initStyle(StageStyle.TRANSPARENT);
         stage.show();
     }
 

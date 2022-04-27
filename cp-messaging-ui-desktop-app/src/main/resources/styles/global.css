@@ -1,0 +1,25 @@
+.bg-dark {
+    -fx-background-color: #262626;
+}
+
+.bg-very-dark {
+    -fx-background-color: #1d1d1d;
+}
+
+.control-button {
+    -fx-text-fill: #d0d0d0;
+    -fx-background-color: #1d1d1d;
+}
+
+.control-button:hover {
+    -fx-background-color: #3b3b3b;
+}
+
+.control-button-close {
+    -fx-text-fill: #d0d0d0;
+    -fx-background-color: #1d1d1d;
+}
+
+.control-button-close:hover {
+    -fx-background-color: #800b0b;
+}
