@@ -5,4 +5,10 @@ spring:
     banner-mode: off
   application:
     name: cp-messaging-system-desktop-app
-    main-title: CP Messaging
+com:
+  cp:
+    projects:
+      messaging-system:
+        ui-desktop-app:
+          meta:
+            application-title: CP Messaging

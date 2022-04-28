@@ -1,5 +1,6 @@
 package com.cp.projects.messagingsystem.ui.desktopapp.listener;
 
+import com.cp.projects.messagingsystem.ui.desktopapp.config.props.MetaProperties;
 import com.cp.projects.messagingsystem.ui.desktopapp.event.StageReadyEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,15 +22,13 @@ import java.io.IOException;
 public class StageReadyEventListener implements ApplicationListener<StageReadyEvent> {
 
     private final FXMLLoader loader;
+    private final MetaProperties meta;
 
     @Value("classpath:/scenes/base-scene.fxml")
     private Resource startScene;
 
     @Value("classpath:/img/icon.png")
     private Resource titleIconResource;
-
-    @Value("${spring.application.main-title}")
-    private String applicationTitle;
 
     @Override
     @SneakyThrows
@@ -49,7 +48,7 @@ public class StageReadyEventListener implements ApplicationListener<StageReadyEv
         stage.setMinHeight(528);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.getIcons().add(new Image(titleIconResource.getInputStream()));
-        stage.setTitle(applicationTitle);
+        stage.setTitle(meta.getApplicationTitle());
         stage.show();
     }
 

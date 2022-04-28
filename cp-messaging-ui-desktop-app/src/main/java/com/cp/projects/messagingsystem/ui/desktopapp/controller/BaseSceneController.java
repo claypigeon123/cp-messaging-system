@@ -1,5 +1,6 @@
 package com.cp.projects.messagingsystem.ui.desktopapp.controller;
 
+import com.cp.projects.messagingsystem.ui.desktopapp.config.props.MetaProperties;
 import com.cp.projects.messagingsystem.ui.desktopapp.util.mouse.RepositionMouseEventHandler;
 import com.cp.projects.messagingsystem.ui.desktopapp.util.mouse.ResizeMouseEventHandler;
 import javafx.application.Platform;
@@ -24,6 +25,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class BaseSceneController {
 
+    private final MetaProperties meta;
+
     @FXML
     public AnchorPane container;
 
@@ -42,14 +45,11 @@ public class BaseSceneController {
     @FXML
     public HBox controlsContainer;
 
-    @Value("${spring.application.main-title}")
-    private String applicationTitle;
-
     @Value("classpath:/img/icon.png")
     private Resource titleIconResource;
 
     public void initialize() throws IOException {
-        titleText.setText(applicationTitle);
+        titleText.setText(meta.getApplicationTitle());
         titleIcon.setImage(new Image(titleIconResource.getInputStream()));
 
         topBarContainer.addEventHandler(MouseEvent.ANY, new RepositionMouseEventHandler(container));
