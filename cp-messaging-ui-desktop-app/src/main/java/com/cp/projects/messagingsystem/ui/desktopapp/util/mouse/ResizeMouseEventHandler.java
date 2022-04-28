@@ -7,7 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import static com.cp.projects.messagingsystem.ui.desktopapp.util.mouse.MouseEdgePosition.*;
 import static com.cp.projects.messagingsystem.ui.desktopapp.util.mouse.MousePositionUtils.determinePosition;
 
 public class ResizeMouseEventHandler implements EventHandler<MouseEvent> {
@@ -24,6 +23,10 @@ public class ResizeMouseEventHandler implements EventHandler<MouseEvent> {
 
     @Override
     public void handle(MouseEvent mouseEvent) {
+        if (getStage().isMaximized()) {
+            return;
+        }
+
         EventType<? extends MouseEvent> eventType = mouseEvent.getEventType();
 
         if (eventType.equals(MouseEvent.MOUSE_MOVED)) {
@@ -47,17 +50,7 @@ public class ResizeMouseEventHandler implements EventHandler<MouseEvent> {
         double x = mouseEvent.getX(), y = mouseEvent.getY();
         double xMax = getStage().getWidth(), yMax = getStage().getHeight();
 
-        switch (determinePosition(x, y, xMax, yMax)) {
-            case TOP_LEFT -> container.setCursor(TOP_LEFT.getCursor());
-            case TOP_RIGHT -> container.setCursor(TOP_RIGHT.getCursor());
-            case TOP -> container.setCursor(TOP.getCursor());
-            case BOTTOM_LEFT -> container.setCursor(BOTTOM_LEFT.getCursor());
-            case BOTTOM_RIGHT -> container.setCursor(BOTTOM_RIGHT.getCursor());
-            case BOTTOM -> container.setCursor(BOTTOM.getCursor());
-            case LEFT -> container.setCursor(LEFT.getCursor());
-            case RIGHT -> container.setCursor(RIGHT.getCursor());
-            default -> container.setCursor(NOT_ON_EDGE.getCursor());
-        }
+        container.setCursor(determinePosition(x, y, xMax, yMax));
     }
 
     private void handleMousePressed(MouseEvent mouseEvent) {

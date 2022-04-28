@@ -1,32 +1,34 @@
 package com.cp.projects.messagingsystem.ui.desktopapp.util.mouse;
 
+import javafx.scene.Cursor;
+
 public class MousePositionUtils {
     private static final double ZERO = 0.0;
     private static final double TOLERANCE = 5.0;
 
-    public static MouseEdgePosition determinePosition(double x, double y, double xMax, double yMax) {
+    public static Cursor determinePosition(double x, double y, double xMax, double yMax) {
 
         if (withinRange(x, ZERO, TOLERANCE) && withinRange(y, ZERO, TOLERANCE))
-            return MouseEdgePosition.TOP_LEFT;
+            return Cursor.NW_RESIZE;
         else if (withinRange(x, xMax - TOLERANCE, xMax) && withinRange(y, ZERO, TOLERANCE))
-            return MouseEdgePosition.TOP_RIGHT;
+            return Cursor.NE_RESIZE;
         else if (withinRange(x, ZERO, xMax) && withinRange(y, ZERO, TOLERANCE))
-            return MouseEdgePosition.TOP;
+            return Cursor.N_RESIZE;
 
         else if (withinRange(x, ZERO, TOLERANCE) && withinRange(y, yMax - TOLERANCE, yMax))
-            return MouseEdgePosition.BOTTOM_LEFT;
+            return Cursor.SW_RESIZE;
         else if (withinRange(x, xMax - TOLERANCE, xMax) && withinRange(y, yMax - TOLERANCE, yMax))
-            return MouseEdgePosition.BOTTOM_RIGHT;
+            return Cursor.SE_RESIZE;
         else if (withinRange(x, ZERO, xMax) && withinRange(y, yMax - TOLERANCE, yMax))
-            return MouseEdgePosition.BOTTOM;
+            return Cursor.S_RESIZE;
 
         else if (withinRange(x, ZERO, TOLERANCE) && withinRange(y, ZERO, yMax))
-            return MouseEdgePosition.LEFT;
+            return Cursor.W_RESIZE;
         else if (withinRange(x, xMax - TOLERANCE, xMax) && withinRange(y, ZERO, yMax))
-            return MouseEdgePosition.RIGHT;
+            return Cursor.E_RESIZE;
 
         else
-            return MouseEdgePosition.NOT_ON_EDGE;
+            return Cursor.DEFAULT;
     }
 
     // --

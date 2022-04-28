@@ -26,6 +26,8 @@ public class RepositionMouseEventHandler implements EventHandler<MouseEvent> {
             handleMousePressed(mouseEvent);
         } else if (eventType.equals(MouseEvent.MOUSE_DRAGGED)) {
             handleMouseDragged(mouseEvent);
+        } else if (eventType.equals(MouseEvent.MOUSE_RELEASED)) {
+            handleMouseReleased(mouseEvent);
         }
     }
 
@@ -41,7 +43,26 @@ public class RepositionMouseEventHandler implements EventHandler<MouseEvent> {
     }
 
     private void handleMouseDragged(MouseEvent mouseEvent) {
-        getStage().setX(mouseEvent.getScreenX() - xOffset);
-        getStage().setY(mouseEvent.getScreenY() - yOffset);
+        Stage stage = getStage();
+
+        if (stage.isMaximized()) {
+            stage.setMaximized(false);
+            stage.setX(mouseEvent.getSceneX() - stage.getWidth() / 2);
+            stage.setY(0);
+            xOffset = stage.getWidth() / 2;
+        }
+
+        stage.setX(mouseEvent.getScreenX() - xOffset);
+        stage.setY(mouseEvent.getScreenY() - yOffset);
+    }
+
+    private void handleMouseReleased(MouseEvent mouseEvent) {
+        if (mouseEvent.getScreenY() != 0) {
+            return;
+        }
+
+        getStage().setMaximized(true);
+        xOffset = 0;
+        yOffset = 0;
     }
 }
