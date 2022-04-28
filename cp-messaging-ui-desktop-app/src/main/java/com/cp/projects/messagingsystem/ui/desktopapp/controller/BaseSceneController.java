@@ -36,13 +36,14 @@ public class BaseSceneController {
 
     public void minimize(ActionEvent actionEvent) {
         getStage().setIconified(true);
+
     }
 
-    public void collapse(ActionEvent actionEvent) {
-        getStage().setFullScreen(!getStage().isFullScreen());
+    public void maximize(ActionEvent actionEvent) {
+        getStage().setMaximized(!getStage().isMaximized());
     }
 
-    public void close(ActionEvent actionEvent) {
+    public void quit(ActionEvent actionEvent) {
         getStage().hide(); // to give the illusion of closing fast
         Platform.exit(); // actually shut down in the background
     }
