@@ -22,7 +22,6 @@ public class CpMessagingJavafxDesktopApp extends Application {
 
     @Override
     public void stop() {
-        System.out.println("Called stop");
         context.close();
     }
 }

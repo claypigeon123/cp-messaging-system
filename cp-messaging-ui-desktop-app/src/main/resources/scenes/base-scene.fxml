@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="container" fx:controller="com.cp.projects.messagingsystem.ui.desktopapp.controller.BaseSceneController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1280.0" prefHeight="720.0" styleClass="bg-dark" stylesheets="@../styles/global.css" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <HBox fx:id="controlBar" alignment="CENTER_RIGHT" prefHeight="25.0" styleClass="bg-very-dark">
-         <children>
-            <Button onAction="#minimize" minWidth="30.0" mnemonicParsing="false" styleClass="control-button" text="¯" />
-            <Button onAction="#maximize" minWidth="30.0" mnemonicParsing="false" styleClass="control-button" text="▢" />
-            <Button onAction="#quit" minWidth="30.0" mnemonicParsing="false" styleClass="control-button-close" text="✕" />
-         </children></HBox>
-   </children>
+<VBox fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="bg-dark" stylesheets="@../styles/global.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cp.projects.messagingsystem.ui.desktopapp.controller.BaseSceneController">
+   <AnchorPane fx:id="topBarContainer" minHeight="28.0" styleClass="bg-very-dark">
+      <HBox fx:id="titleContainer" alignment="CENTER_LEFT" prefHeight="25.0" styleClass="bg-very-dark, title-bar-text" AnchorPane.leftAnchor="10.0">
+         <ImageView fx:id="titleIcon" fitHeight="25.0" fitWidth="25.0" />
+         <Label fx:id="titleText" styleClass="title-bar-text" text="Title goes here">
+            <padding> <Insets left="5.0" /> </padding>
+         </Label>
+      </HBox>
+      <HBox fx:id="controlsContainer" alignment="CENTER_RIGHT" prefHeight="25.0" styleClass="bg-very-dark" AnchorPane.rightAnchor="0.0">
+         <Button minWidth="30.0" mnemonicParsing="false" onAction="#minimize" styleClass="control-button" text="¯" />
+         <Button minWidth="30.0" mnemonicParsing="false" onAction="#maximize" styleClass="control-button" text="▢" />
+         <Button minWidth="30.0" mnemonicParsing="false" onAction="#quit" styleClass="control-button-close" text="✕" />
+      </HBox>
+   </AnchorPane>
 </VBox>
