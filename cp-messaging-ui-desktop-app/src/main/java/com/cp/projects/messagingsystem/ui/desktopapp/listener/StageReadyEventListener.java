@@ -1,6 +1,5 @@
 package com.cp.projects.messagingsystem.ui.desktopapp.listener;
 
-import com.cp.projects.messagingsystem.ui.desktopapp.controller.BaseSceneController;
 import com.cp.projects.messagingsystem.ui.desktopapp.event.StageReadyEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -49,6 +48,8 @@ public class StageReadyEventListener implements ApplicationListener<StageReadyEv
         Stage stage = event.getStage();
         stage.setScene(new Scene(root));
         stage.setResizable(true);
+        stage.setMinWidth(939.4);
+        stage.setMinHeight(528);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.getIcons().add(new Image(titleIconResource.getInputStream()));
         stage.setTitle(applicationTitle);
