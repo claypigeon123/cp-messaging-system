@@ -14,8 +14,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -25,7 +23,6 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class BaseSceneController {
-    private static final Logger log = LoggerFactory.getLogger(BaseSceneController.class);
 
     @FXML
     public AnchorPane container;

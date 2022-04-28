@@ -3,6 +3,7 @@ package com.cp.projects.messagingsystem.ui.desktopapp;
 import com.cp.projects.messagingsystem.ui.desktopapp.event.StageReadyEvent;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -12,7 +13,10 @@ public class CpMessagingJavafxDesktopApp extends Application {
 
     @Override
     public void init() {
-        context = new SpringApplicationBuilder(CpMessagingSpringDesktopApp.class).run();
+        context = new SpringApplicationBuilder(CpMessagingSpringDesktopApp.class)
+            .web(WebApplicationType.NONE)
+            .headless(false)
+            .run();
     }
 
     @Override
