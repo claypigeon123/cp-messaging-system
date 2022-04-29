@@ -9,6 +9,7 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
+    <groupId>com.cp.projects.messaging-system.ui</groupId>
     <artifactId>cp-messaging-ui-web-app</artifactId>
 
     <name>CP Messaging UI Web Application</name>
