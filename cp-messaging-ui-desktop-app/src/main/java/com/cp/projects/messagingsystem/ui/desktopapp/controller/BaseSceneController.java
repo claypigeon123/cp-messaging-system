@@ -3,10 +3,10 @@ package com.cp.projects.messagingsystem.ui.desktopapp.controller;
 import com.cp.projects.messagingsystem.ui.desktopapp.config.props.MetaProperties;
 import com.cp.projects.messagingsystem.ui.desktopapp.util.mouse.RepositionMouseEventHandler;
 import com.cp.projects.messagingsystem.ui.desktopapp.util.mouse.ResizeMouseEventHandler;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,30 +27,52 @@ public class BaseSceneController {
 
     private final MetaProperties meta;
 
-    @FXML
-    public AnchorPane container;
+    @FXML public AnchorPane container;
 
-    @FXML
-    public AnchorPane topBarContainer;
+    @FXML public AnchorPane topBarContainer;
 
-    @FXML
-    public HBox titleContainer;
+    @FXML public HBox titleContainer;
 
-    @FXML
-    public ImageView titleIcon;
+    @FXML public ImageView titleIcon;
 
-    @FXML
-    public Label titleText;
+    @FXML public Label titleText;
 
-    @FXML
-    public HBox controlsContainer;
+    @FXML public HBox controlsContainer;
+
+    @FXML public Button homeBtn;
+    @FXML public Button profileBtn;
+    @FXML public Button settingsBtn;
 
     @Value("classpath:/img/icon.png")
     private Resource titleIconResource;
 
+    @Value("classpath:/img/home-solid.png")
+    private Resource homeSolidResource;
+
+    @Value("classpath:/img/user-solid.png")
+    private Resource userSolidResource;
+
+    @Value("classpath:/img/cog-solid.png")
+    private Resource settingsSolidResource;
+
     public void initialize() throws IOException {
         titleText.setText(meta.getApplicationTitle());
         titleIcon.setImage(new Image(titleIconResource.getInputStream()));
+
+        ImageView homeSolidImg = new ImageView(new Image(homeSolidResource.getInputStream()));
+        homeSolidImg.setFitWidth(20);
+        homeSolidImg.setFitHeight(20);
+        homeBtn.setGraphic(homeSolidImg);
+
+        ImageView userSolidImg = new ImageView(new Image(userSolidResource.getInputStream()));
+        userSolidImg.setFitWidth(20);
+        userSolidImg.setFitHeight(20);
+        profileBtn.setGraphic(userSolidImg);
+
+        ImageView settingsSolidImg = new ImageView(new Image(settingsSolidResource.getInputStream()));
+        settingsSolidImg.setFitWidth(20);
+        settingsSolidImg.setFitHeight(20);
+        settingsBtn.setGraphic(settingsSolidImg);
 
         topBarContainer.addEventHandler(MouseEvent.ANY, new RepositionMouseEventHandler(container));
         container.addEventHandler(MouseEvent.ANY, new ResizeMouseEventHandler(container));

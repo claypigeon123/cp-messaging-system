@@ -68,7 +68,7 @@ public class StageReadyEventListener implements ApplicationListener<StageReadyEv
             return;
         }
 
-        PopupMenu popup = new PopupMenu();
+        PopupMenu popup = new PopupMenu(meta.getApplicationTitle());
         popup.setFont(Font.getFont(Font.MONOSPACED));
         SystemTray tray = SystemTray.getSystemTray();
 
