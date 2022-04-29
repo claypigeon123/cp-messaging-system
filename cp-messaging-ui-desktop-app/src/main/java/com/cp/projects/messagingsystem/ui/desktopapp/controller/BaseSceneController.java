@@ -39,18 +39,18 @@ public class BaseSceneController {
 
     @FXML public HBox controlsContainer;
 
-    @FXML public Button homeBtn;
     @FXML public Button profileBtn;
+    @FXML public Button friendsBtn;
     @FXML public Button settingsBtn;
 
     @Value("classpath:/img/icon.png")
     private Resource titleIconResource;
 
-    @Value("classpath:/img/home-solid.png")
-    private Resource homeSolidResource;
-
     @Value("classpath:/img/user-solid.png")
     private Resource userSolidResource;
+
+    @Value("classpath:/img/users-solid.png")
+    private Resource usersSolidResource;
 
     @Value("classpath:/img/cog-solid.png")
     private Resource settingsSolidResource;
@@ -59,15 +59,15 @@ public class BaseSceneController {
         titleText.setText(meta.getApplicationTitle());
         titleIcon.setImage(new Image(titleIconResource.getInputStream()));
 
-        ImageView homeSolidImg = new ImageView(new Image(homeSolidResource.getInputStream()));
-        homeSolidImg.setFitWidth(20);
-        homeSolidImg.setFitHeight(20);
-        homeBtn.setGraphic(homeSolidImg);
-
         ImageView userSolidImg = new ImageView(new Image(userSolidResource.getInputStream()));
         userSolidImg.setFitWidth(20);
         userSolidImg.setFitHeight(20);
         profileBtn.setGraphic(userSolidImg);
+
+        ImageView friendsSolidImg = new ImageView(new Image(usersSolidResource.getInputStream()));
+        friendsSolidImg.setFitWidth(20);
+        friendsSolidImg.setFitHeight(20);
+        friendsBtn.setGraphic(friendsSolidImg);
 
         ImageView settingsSolidImg = new ImageView(new Image(settingsSolidResource.getInputStream()));
         settingsSolidImg.setFitWidth(20);
