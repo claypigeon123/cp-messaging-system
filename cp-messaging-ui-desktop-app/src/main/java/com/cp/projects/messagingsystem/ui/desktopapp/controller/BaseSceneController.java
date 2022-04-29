@@ -66,8 +66,7 @@ public class BaseSceneController {
     }
 
     public void quit(ActionEvent actionEvent) {
-        getStage().hide(); // to give the illusion of closing fast
-        Platform.exit(); // actually shut down in the background
+        getStage().close();
     }
 
     public void buttonHovered(MouseEvent mouseEvent) {

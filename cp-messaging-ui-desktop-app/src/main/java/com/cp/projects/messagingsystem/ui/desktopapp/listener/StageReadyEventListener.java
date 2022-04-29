@@ -2,6 +2,7 @@ package com.cp.projects.messagingsystem.ui.desktopapp.listener;
 
 import com.cp.projects.messagingsystem.ui.desktopapp.config.props.MetaProperties;
 import com.cp.projects.messagingsystem.ui.desktopapp.event.StageReadyEvent;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,6 +16,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import java.awt.*;
 import java.io.IOException;
 
 @Component
@@ -41,7 +43,16 @@ public class StageReadyEventListener implements ApplicationListener<StageReadyEv
             throw new RuntimeException(e);
         }
 
+        Stage stage = initializeStage(event, root);
+
+        stage.show();
+    }
+
+    // --
+
+    private Stage initializeStage(StageReadyEvent event, Parent root) throws IOException, AWTException {
         Stage stage = event.getStage();
+
         stage.setScene(new Scene(root));
         stage.setResizable(true);
         stage.setMinWidth(939.4);
@@ -49,7 +60,41 @@ public class StageReadyEventListener implements ApplicationListener<StageReadyEv
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.getIcons().add(new Image(titleIconResource.getInputStream()));
         stage.setTitle(meta.getApplicationTitle());
-        stage.show();
+        this.setUpTray(stage);
+
+        return stage;
     }
 
+    private void setUpTray(Stage stage) throws IOException, AWTException {
+        if (!SystemTray.isSupported()) {
+            return;
+        }
+
+        PopupMenu popup = new PopupMenu();
+        popup.setFont(Font.getFont(Font.MONOSPACED));
+        SystemTray tray = SystemTray.getSystemTray();
+
+        java.awt.Image iconImage = Toolkit.getDefaultToolkit().getImage(titleIconResource.getURL());
+        iconImage = iconImage.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+        TrayIcon icon = new TrayIcon(iconImage);
+        icon.addActionListener(e -> Platform.runLater(stage::show));
+
+        MenuItem openItem = new MenuItem("Open");
+        openItem.addActionListener(e -> Platform.runLater(stage::show));
+
+        MenuItem exitItem = new MenuItem("Exit");
+        exitItem.addActionListener(e -> Platform.runLater(() -> {
+            tray.remove(icon);
+            stage.close();
+            Platform.exit();
+        }));
+
+
+        popup.add(openItem);
+        popup.addSeparator();
+        popup.add(exitItem);
+
+        icon.setPopupMenu(popup);
+        tray.add(icon);
+    }
 }
