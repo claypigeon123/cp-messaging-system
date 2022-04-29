@@ -43,17 +43,15 @@ public class StageReadyEventListener implements ApplicationListener<StageReadyEv
             throw new RuntimeException(e);
         }
 
-        Stage stage = initializeStage(event, root);
+        Stage stage = initializeStage(event.getStage(), new Scene(root));
 
         stage.show();
     }
 
     // --
 
-    private Stage initializeStage(StageReadyEvent event, Parent root) throws IOException, AWTException {
-        Stage stage = event.getStage();
-
-        stage.setScene(new Scene(root));
+    private Stage initializeStage(Stage stage, Scene scene) throws IOException, AWTException {
+        stage.setScene(scene);
         stage.setResizable(true);
         stage.setMinWidth(939.4);
         stage.setMinHeight(528);
