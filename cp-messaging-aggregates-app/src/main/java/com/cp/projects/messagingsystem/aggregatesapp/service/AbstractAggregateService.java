@@ -15,8 +15,8 @@ import java.util.UUID;
 
 public abstract class AbstractAggregateService<AGGREGATE_TYPE extends Document> {
 
-    private final Clock clock;
-    private final ReactiveMongoRepository<AGGREGATE_TYPE, String> repository;
+    protected final Clock clock;
+    protected final ReactiveMongoRepository<AGGREGATE_TYPE, String> repository;
 
     public AbstractAggregateService(Clock clock, ReactiveMongoRepository<AGGREGATE_TYPE, String> repository) {
         this.clock = clock;

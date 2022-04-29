@@ -18,7 +18,7 @@ import java.util.List;
 public class UserAggregate extends Document {
 
     @NotBlank
-    @Getter(onMethod = @__(@JsonIgnore))
+    @Getter/*(onMethod = @__(@JsonIgnore))*/
     @Setter(onMethod = @__(@JsonProperty))
     private String password;
 

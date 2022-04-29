@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
@@ -61,6 +62,16 @@ public class CustomWebfluxAutoConfig {
         module.addDeserializer(OffsetDateTime.class, deserializer);
 
         return module;
+    }
+
+    @Bean
+    public Converter<String, OffsetDateTime> offsetDateTimePathVariableConverter() {
+        return new Converter<>() {
+            @Override
+            public OffsetDateTime convert(String source) {
+                return OffsetDateTime.parse(source);
+            }
+        };
     }
 
     @Bean
