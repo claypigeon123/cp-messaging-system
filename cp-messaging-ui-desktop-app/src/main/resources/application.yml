@@ -12,3 +12,6 @@ com:
         ui-desktop-app:
           meta:
             application-title: CP Messaging
+        reactive-clients:
+          cp-messaging-auth-server-app:
+            base-uri: http://localhost:9900

@@ -1,0 +1,11 @@
+com:
+  cp:
+    projects:
+      messaging-system:
+        reactive-clients:
+          cp-messaging-auth-server-app:
+            base-uri: http://something.domain
+            # URIs
+            health-check-uri: ${com.cp.projects.messaging-system.reactive-clients.cp-messaging-auth-server-app.base-uri}/actuator/health
+            register-uri: ${com.cp.projects.messaging-system.reactive-clients.cp-messaging-auth-server-app.base-uri}/auth/register
+            get-token-uri: ${com.cp.projects.messaging-system.reactive-clients.cp-messaging-auth-server-app.base-uri}/auth/get-token

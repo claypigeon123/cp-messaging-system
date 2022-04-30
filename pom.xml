@@ -80,6 +80,11 @@
                 <artifactId>cp-messaging-aggregates-app-reactive-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.cp.projects.messaging-system.clients.reactive</groupId>
+                <artifactId>cp-messaging-auth-server-app-reactive-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
