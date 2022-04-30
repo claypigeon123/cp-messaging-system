@@ -40,18 +40,9 @@ public class AuthService {
         }
 
         OffsetDateTime now = OffsetDateTime.now(clock);
-        return aggregatesClient.findById(request.getUsername(), User.class)
-            .onErrorContinue((th, o) -> Mono.error(new CpMessagingSystemException("Username already taken", HttpStatus.CONFLICT.value())))
-            .flatMap(user -> Mono.just(request))
-            .flatMap(req -> aggregatesClient.create(new User(
-                req.getUsername(),
-                now,
-                now,
-                passwordEncoder.encode(req.getPassword()),
-                req.getDisplayName(),
-                new ArrayList<>(),
-                false
-            ), User.class)).then();
+        User user = new User(request.getUsername(), now, now, passwordEncoder.encode(request.getPassword()), request.getDisplayName(), new ArrayList<>(), false);
+        return aggregatesClient.create(user, User.class)
+            .then();
     }
 
     // ---

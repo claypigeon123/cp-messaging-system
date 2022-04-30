@@ -27,13 +27,13 @@ public class AuthController {
 
     @PostMapping("/get-token")
     public Mono<AuthResponse> auth(@RequestBody @Valid AuthRequest request) {
-        log.info("Request to authenticate {}", request.getUsername());
+        log.debug("Request to authenticate {}", request.getUsername());
         return authService.auth(request);
     }
 
     @PostMapping("/register")
     public Mono<Void> register(@RequestBody @Valid RegisterRequest request) {
-        log.info("Request to register new user");
+        log.debug("Request to register new user");
         return authService.register(request);
     }
 }

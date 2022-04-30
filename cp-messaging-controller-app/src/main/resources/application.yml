@@ -10,6 +10,9 @@ spring:
     mongodb:
       repositories:
         type: reactive
+logging:
+  level:
+    com.cp.projects.messagingsystem.components.webfluxreporting.filter: DEBUG
 com:
   cp:
     projects:

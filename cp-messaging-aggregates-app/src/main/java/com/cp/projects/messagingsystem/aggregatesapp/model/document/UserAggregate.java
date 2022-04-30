@@ -1,12 +1,8 @@
 package com.cp.projects.messagingsystem.aggregatesapp.model.document;
 
 import com.cp.projects.messagingsystem.cpmessagingdomain.document.Document;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import java.time.OffsetDateTime;
@@ -18,8 +14,6 @@ import java.util.List;
 public class UserAggregate extends Document {
 
     @NotBlank
-    @Getter/*(onMethod = @__(@JsonIgnore))*/
-    @Setter(onMethod = @__(@JsonProperty))
     private String password;
 
     @NotBlank

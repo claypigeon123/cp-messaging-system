@@ -43,7 +43,6 @@ public abstract class AbstractAggregateController<AGGREGATE_TYPE extends Documen
     public Mono<AGGREGATE_TYPE> create(
         @RequestBody @Valid AGGREGATE_TYPE aggregate
     ) {
-        log.info("{}", aggregate);
         log.debug("Request to create new {} aggregate", aggregateType);
         return service.create(aggregate);
     }

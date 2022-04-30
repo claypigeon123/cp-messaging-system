@@ -31,12 +31,12 @@ public class WebClientReportingFilter implements ExchangeFilterFunction {
         String method = request.method().toString();
         String path = request.url().getPath().concat(queryString);
 
-        log.info("API Request: [method=\"{}\", base=\"{}\", path=\"{}\"]", method, baseUri, path);
+        log.debug("API Request: [method=\"{}\", base=\"{}\", path=\"{}\"]", method, baseUri, path);
 
         long start = System.currentTimeMillis();
         return next.exchange(request).map(response -> {
             long duration = System.currentTimeMillis() - start;
-            log.info("API Response: [method=\"{}\", base=\"{}\", path=\"{}\", statusCode=\"{}\", duration=\"{}ms\"]", method, baseUri, path, response.rawStatusCode(), duration);
+            log.debug("API Response: [method=\"{}\", base=\"{}\", path=\"{}\", statusCode=\"{}\", duration=\"{}ms\"]", method, baseUri, path, response.rawStatusCode(), duration);
 
             return response;
         });
