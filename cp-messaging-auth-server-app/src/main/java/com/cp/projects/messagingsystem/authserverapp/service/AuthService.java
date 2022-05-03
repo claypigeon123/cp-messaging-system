@@ -48,7 +48,7 @@ public class AuthService {
 
     private AuthResponse generateTokenFor(User aggregate) {
         long now = OffsetDateTime.now(clock).toInstant().toEpochMilli();
-        long until = now + 604800000;
+        long until = now + 1000 * 60 * 60 * 24 * 7; // 1 week
         String token = Jwts.builder()
             .setSubject(aggregate.getId())
             .setIssuedAt(new Date(now))

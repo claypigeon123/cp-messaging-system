@@ -23,6 +23,9 @@ com:
         auth-server-app-config:
           minimum-username-length: 4
           minimum-password-length: 6
+          message-username-too-short: Username must be at least ${com.cp.projects.messaging-system.auth-server-app-config.minimum-username-length} characters long
+          message-password-too-short: Password must be at least ${com.cp.projects.messaging-system.auth-server-app-config.minimum-password-length} characters long
+          message-passwords-dont-match: Passwords don't match
         security-config:
           jwt-secret: XsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretX
           allowed-origins:
