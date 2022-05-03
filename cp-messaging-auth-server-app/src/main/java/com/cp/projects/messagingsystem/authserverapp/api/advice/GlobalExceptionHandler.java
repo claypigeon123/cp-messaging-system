@@ -1,4 +1,4 @@
-package com.cp.projects.messagingsystem.authserverapp.controller.advice;
+package com.cp.projects.messagingsystem.authserverapp.api.advice;
 
 import com.cp.projects.messagingsystem.cpmessagingdomain.exception.CpMessagingSystemException;
 import com.cp.projects.messagingsystem.cpmessagingdomain.exception.ExceptionResponse;

@@ -1,4 +1,4 @@
-package com.cp.projects.messagingsystem.authserverapp.controller;
+package com.cp.projects.messagingsystem.authserverapp.api;
 
 import com.cp.projects.messagingsystem.authserverapp.service.AuthService;
 import com.cp.projects.messagingsystem.authserverapp.validation.annotation.ValidRegisterRequest;
