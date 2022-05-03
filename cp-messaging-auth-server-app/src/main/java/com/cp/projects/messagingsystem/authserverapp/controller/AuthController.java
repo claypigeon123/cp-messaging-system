@@ -1,6 +1,7 @@
 package com.cp.projects.messagingsystem.authserverapp.controller;
 
 import com.cp.projects.messagingsystem.authserverapp.service.AuthService;
+import com.cp.projects.messagingsystem.authserverapp.validation.annotation.ValidRegisterRequest;
 import com.cp.projects.messagingsystem.cpmessagingdomain.request.AuthRequest;
 import com.cp.projects.messagingsystem.cpmessagingdomain.request.RegisterRequest;
 import com.cp.projects.messagingsystem.cpmessagingdomain.response.AuthResponse;
@@ -32,7 +33,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public Mono<Void> register(@RequestBody @Valid RegisterRequest request) {
+    public Mono<Void> register(@RequestBody @Valid @ValidRegisterRequest RegisterRequest request) {
         log.debug("Request to register new user");
         return authService.register(request);
     }

@@ -20,6 +20,9 @@ com:
         reactive-clients:
           cp-messaging-aggregates-app:
             base-uri: http://localhost:4040
+        auth-server-app-config:
+          minimum-username-length: 4
+          minimum-password-length: 6
         security-config:
           jwt-secret: XsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretXsuperXsecretX
           allowed-origins:

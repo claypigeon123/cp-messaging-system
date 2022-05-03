@@ -35,13 +35,8 @@ public class AuthService {
     }
 
     public Mono<Void> register(RegisterRequest request) {
-        if (!request.getPassword().equals(request.getConfirmPassword())) {
-            throw new CpMessagingSystemException("Provided passwords didn't match", HttpStatus.BAD_REQUEST.value());
-        }
-
-        OffsetDateTime now = OffsetDateTime.now(clock);
-        User user = new User(request.getUsername(), now, now, passwordEncoder.encode(request.getPassword()), request.getDisplayName(), new ArrayList<>(), false);
-        return aggregatesClient.create(user, User.class)
+        return Mono.just(new User(request.getUsername(), null, null, passwordEncoder.encode(request.getPassword()), request.getDisplayName(), new ArrayList<>(), false))
+            .flatMap(user -> aggregatesClient.create(user, User.class))
             .then();
     }
 
