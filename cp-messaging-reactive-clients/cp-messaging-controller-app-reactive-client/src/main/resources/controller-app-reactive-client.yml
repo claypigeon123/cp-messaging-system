@@ -1,0 +1,10 @@
+com:
+  cp:
+    projects:
+      messaging-system:
+        reactive-clients:
+          cp-messaging-controller-app:
+            base-uri: http://something.domain
+            base-uri-ws: ws://something.domain
+            # URIs
+            ws-messages-uri: ${com.cp.projects.messaging-system.reactive-clients.cp-messaging-controller-app.base-uri-ws}/messages

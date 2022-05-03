@@ -40,7 +40,9 @@
 
         <!-- UI Applications -->
         <module>cp-messaging-ui-web-app</module>
-        <module>cp-messaging-ui-desktop-app</module>
+
+        <!-- Abandoned until further notice
+        <module>cp-messaging-ui-desktop-app</module>-->
     </modules>
 
     <dependencyManagement>
@@ -83,6 +85,11 @@
             <dependency>
                 <groupId>com.cp.projects.messaging-system.clients.reactive</groupId>
                 <artifactId>cp-messaging-auth-server-app-reactive-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.cp.projects.messaging-system.clients.reactive</groupId>
+                <artifactId>cp-messaging-controller-app-reactive-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

@@ -15,3 +15,6 @@ com:
         reactive-clients:
           cp-messaging-auth-server-app:
             base-uri: http://localhost:9900
+          cp-messaging-controller-app:
+            base-uri: http://localhost:9000
+            base-uri-ws: ws://localhost:9000

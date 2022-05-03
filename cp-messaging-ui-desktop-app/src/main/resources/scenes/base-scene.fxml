@@ -52,7 +52,11 @@
                </Button>
             </HBox>
          </AnchorPane>
-         <AnchorPane minHeight="-Infinity" minWidth="-Infinity" styleClass="bg-dark" SplitPane.resizableWithParent="false" />
+         <AnchorPane styleClass="bg-dark" SplitPane.resizableWithParent="false">
+            <ScrollPane fx:id="messagesScrollPane" fitToWidth="true" hbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <VBox fx:id="messagesVbox" styleClass="bg-dark" />
+            </ScrollPane>
+         </AnchorPane>
          <cursor>
             <Cursor fx:constant="DEFAULT" />
          </cursor>

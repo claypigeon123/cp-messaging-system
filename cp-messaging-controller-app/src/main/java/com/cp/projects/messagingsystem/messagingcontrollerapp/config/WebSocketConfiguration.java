@@ -1,6 +1,6 @@
 package com.cp.projects.messagingsystem.messagingcontrollerapp.config;
 
-import com.cp.projects.messagingsystem.messagingcontrollerapp.service.MessagingService;
+import com.cp.projects.messagingsystem.messagingcontrollerapp.service.MessagingWebSocketService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.HandlerMapping;
@@ -17,9 +17,9 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     private static final String MESSAGES_URI = "/messages";
 
     @Bean
-    public HandlerMapping webSocketHandlerMapping(MessagingService messagingService) {
+    public HandlerMapping webSocketHandlerMapping(MessagingWebSocketService messagingWebSocketService) {
         Map<String, WebSocketHandler> processors = new HashMap<>();
-        processors.put(MESSAGES_URI, messagingService);
+        processors.put(MESSAGES_URI, messagingWebSocketService);
 
         SimpleUrlHandlerMapping handlerMapping = new SimpleUrlHandlerMapping();
         handlerMapping.setOrder(1);

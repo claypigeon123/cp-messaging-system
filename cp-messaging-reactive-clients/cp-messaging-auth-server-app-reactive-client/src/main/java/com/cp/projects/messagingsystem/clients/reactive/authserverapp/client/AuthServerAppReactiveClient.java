@@ -1,6 +1,6 @@
 package com.cp.projects.messagingsystem.clients.reactive.authserverapp.client;
 
-import com.cp.projects.messagingsystem.clients.reactive.authserverapp.properties.AuthServerAppProperties;
+import com.cp.projects.messagingsystem.clients.reactive.authserverapp.properties.AuthServerAppClientProperties;
 import com.cp.projects.messagingsystem.cpmessagingdomain.request.AuthRequest;
 import com.cp.projects.messagingsystem.cpmessagingdomain.request.RegisterRequest;
 import com.cp.projects.messagingsystem.cpmessagingdomain.response.AuthResponse;
@@ -14,7 +14,7 @@ import java.net.URI;
 
 @RequiredArgsConstructor
 public class AuthServerAppReactiveClient {
-    private final AuthServerAppProperties props;
+    private final AuthServerAppClientProperties props;
     private final WebClient webClient;
 
     public Mono<Void> register(RegisterRequest request) {

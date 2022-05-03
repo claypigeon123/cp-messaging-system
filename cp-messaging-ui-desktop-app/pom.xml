@@ -32,6 +32,10 @@
             <artifactId>cp-messaging-auth-server-app-reactive-client</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.cp.projects.messaging-system.clients.reactive</groupId>
+            <artifactId>cp-messaging-controller-app-reactive-client</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.cp.projects.messaging-system</groupId>
             <artifactId>cp-messaging-domain</artifactId>
         </dependency>

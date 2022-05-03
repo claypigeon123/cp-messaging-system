@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
 @ConfigurationProperties("com.cp.projects.messaging-system.reactive-clients.cp-messaging-aggregates-app")
-public class AggregatesAppProperties {
+public class AggregatesAppClientProperties {
     private String baseUri;
 
     private String messagesPathVariable;

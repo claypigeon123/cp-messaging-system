@@ -1,6 +1,6 @@
 package com.cp.projects.messagingsystem.clients.reactive.aggregatesapp.client;
 
-import com.cp.projects.messagingsystem.clients.reactive.aggregatesapp.properties.AggregatesAppProperties;
+import com.cp.projects.messagingsystem.clients.reactive.aggregatesapp.properties.AggregatesAppClientProperties;
 import com.cp.projects.messagingsystem.cpmessagingdomain.document.Conversation;
 import com.cp.projects.messagingsystem.cpmessagingdomain.document.Document;
 import com.cp.projects.messagingsystem.cpmessagingdomain.document.Message;
@@ -19,12 +19,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AggregatesAppReactiveClient {
-    private final AggregatesAppProperties props;
+    private final AggregatesAppClientProperties props;
     private final WebClient webClient;
 
     private final Map<Class<? extends Document>, String> pathVarMap;
 
-    public AggregatesAppReactiveClient(AggregatesAppProperties props, WebClient webClient) {
+    public AggregatesAppReactiveClient(AggregatesAppClientProperties props, WebClient webClient) {
         this.props = props;
         this.webClient = webClient;
 

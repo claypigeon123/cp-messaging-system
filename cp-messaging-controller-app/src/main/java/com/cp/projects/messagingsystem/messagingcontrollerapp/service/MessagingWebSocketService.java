@@ -34,8 +34,8 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
-public class MessagingService implements WebSocketHandler {
-    private static final Logger log = LoggerFactory.getLogger(MessagingService.class);
+public class MessagingWebSocketService implements WebSocketHandler {
+    private static final Logger log = LoggerFactory.getLogger(MessagingWebSocketService.class);
     private static final String NO_VALID_AUTH = "No valid authorization provided";
 
     @Data

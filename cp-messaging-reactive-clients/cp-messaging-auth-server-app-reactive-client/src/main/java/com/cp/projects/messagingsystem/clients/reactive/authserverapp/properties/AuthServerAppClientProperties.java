@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
 @ConfigurationProperties("com.cp.projects.messaging-system.reactive-clients.cp-messaging-auth-server-app")
-public class AuthServerAppProperties {
+public class AuthServerAppClientProperties {
     private String baseUri;
 
     private String healthCheckUri;

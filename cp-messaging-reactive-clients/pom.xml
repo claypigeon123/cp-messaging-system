@@ -18,6 +18,7 @@
     <modules>
         <module>cp-messaging-aggregates-app-reactive-client</module>
         <module>cp-messaging-auth-server-app-reactive-client</module>
+        <module>cp-messaging-controller-app-reactive-client</module>
     </modules>
 
 </project>

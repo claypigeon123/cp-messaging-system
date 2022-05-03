@@ -1,18 +1,22 @@
 package com.cp.projects.messagingsystem.ui.desktopapp.controller;
 
+import com.cp.projects.messagingsystem.clients.reactive.controllerapp.client.ControllerAppReactiveClient;
+import com.cp.projects.messagingsystem.cpmessagingdomain.document.Message;
+import com.cp.projects.messagingsystem.cpmessagingdomain.util.WebSocketMessageParser;
 import com.cp.projects.messagingsystem.ui.desktopapp.config.props.MetaProperties;
 import com.cp.projects.messagingsystem.ui.desktopapp.util.mouse.RepositionMouseEventHandler;
 import com.cp.projects.messagingsystem.ui.desktopapp.util.mouse.ResizeMouseEventHandler;
+import com.cp.projects.messagingsystem.ui.desktopapp.websocket.MessagingWebSocketHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +29,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class BaseSceneController {
 
+    private final MessagingWebSocketHandler handler;
+    private final ControllerAppReactiveClient controllerClient;
     private final MetaProperties meta;
 
     @FXML public AnchorPane container;
@@ -38,6 +44,9 @@ public class BaseSceneController {
     @FXML public Label titleText;
 
     @FXML public HBox controlsContainer;
+
+    @FXML public ScrollPane messagesScrollPane;
+    @FXML public VBox messagesVbox;
 
     @FXML public Button profileBtn;
     @FXML public Button friendsBtn;
@@ -76,6 +85,9 @@ public class BaseSceneController {
 
         topBarContainer.addEventHandler(MouseEvent.ANY, new RepositionMouseEventHandler(container));
         container.addEventHandler(MouseEvent.ANY, new ResizeMouseEventHandler(container));
+
+        controllerClient.connect("Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbGF5cGlnZW9uMTIiLCJpYXQiOjE2NTEzNDI0OTcsImV4cCI6MTY1MTk0NzI5N30.ISDpkXXeASNFyr44Yu3qus8Ko7ct_d_yju-qLXZ-gpIb1JWRVQqz4ASPSb1BOeJBShotqNr_g3C-nZ1YqJqXSg", handler)
+            .subscribe();
     }
 
     public void minimize(ActionEvent actionEvent) {
@@ -97,6 +109,18 @@ public class BaseSceneController {
 
     public void buttonHoverEnded(MouseEvent mouseEvent) {
         container.setCursor(Cursor.DEFAULT);
+    }
+
+    public void addMessage(Message message) {
+        Label label = new Label(message.getContent());
+        label.setStyle("-fx-text-fill: white; -fx-background-color: transparent; -fx-background-insets: 0px");
+        label.setWrapText(true);
+        messagesVbox.getChildren().add(label);
+
+        messagesScrollPane.applyCss();
+        messagesScrollPane.layout();
+
+        messagesScrollPane.setVvalue(1.0);
     }
 
     // --

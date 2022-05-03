@@ -5,6 +5,18 @@
     -fx-border-width: 5px;
 }
 
+.label {
+    -fx-text-fill: #d0d0d0;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane {
+    -fx-background-color: #262626;
+}
+
 .split-pane > .split-pane-divider {
     -fx-padding: 0 0 0 0;
 }
