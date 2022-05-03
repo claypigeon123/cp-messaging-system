@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
 import javax.crypto.SecretKey;
@@ -28,9 +29,12 @@ public class AuthService {
 
     public Mono<AuthResponse> auth(AuthRequest request) {
         return aggregatesClient.findById(request.getUsername(), User.class)
-            .switchIfEmpty(Mono.error(new CpMessagingSystemException(HttpStatus.UNAUTHORIZED.value())))
+            .onErrorResume(throwable -> throwable instanceof WebClientResponseException.NotFound
+                ? Mono.error(new CpMessagingSystemException("Unauthorized", HttpStatus.UNAUTHORIZED.value()))
+                : Mono.error(throwable)
+            )
             .flatMap(aggregate -> verifyPassword(aggregate, request.getPassword()))
-            .switchIfEmpty(Mono.error(new CpMessagingSystemException(HttpStatus.UNAUTHORIZED.value())))
+            .switchIfEmpty(Mono.error(new CpMessagingSystemException("Unauthorized", HttpStatus.UNAUTHORIZED.value())))
             .map(this::generateTokenFor);
     }
 

@@ -1,5 +1,6 @@
 package com.cp.projects.messagingsystem.authserverapp.controller.advice;
 
+import com.cp.projects.messagingsystem.cpmessagingdomain.exception.CpMessagingSystemException;
 import com.cp.projects.messagingsystem.cpmessagingdomain.exception.ExceptionResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -35,6 +36,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity
             .status(e.getStatusCode())
             .body(Mono.just(objectMapper.readValue(e.getResponseBodyAsString(), ExceptionResponse.class)));
+    }
+
+    @ExceptionHandler(CpMessagingSystemException.class)
+    public ResponseEntity<Mono<ExceptionResponse>> domainException(CpMessagingSystemException e) {
+        return ResponseEntity
+            .status(e.getStatus())
+            .body(Mono.just(new ExceptionResponse(OffsetDateTime.now(clock), e.getStatus(), e.getMessage())));
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
