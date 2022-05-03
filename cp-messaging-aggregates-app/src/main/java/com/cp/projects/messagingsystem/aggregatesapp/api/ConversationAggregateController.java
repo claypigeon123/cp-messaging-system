@@ -1,4 +1,4 @@
-package com.cp.projects.messagingsystem.aggregatesapp.controller;
+package com.cp.projects.messagingsystem.aggregatesapp.api;
 
 import com.cp.projects.messagingsystem.aggregatesapp.model.document.ConversationAggregate;
 import com.cp.projects.messagingsystem.aggregatesapp.service.ConversationAggregateService;

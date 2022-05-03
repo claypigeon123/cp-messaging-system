@@ -1,4 +1,4 @@
-package com.cp.projects.messagingsystem.aggregatesapp.controller.advice;
+package com.cp.projects.messagingsystem.aggregatesapp.api.advice;
 
 import com.cp.projects.messagingsystem.aggregatesapp.model.exception.AggregateNotFoundException;
 import com.cp.projects.messagingsystem.aggregatesapp.model.exception.IdTakenException;
